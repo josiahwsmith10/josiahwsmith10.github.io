@@ -1,0 +1,51 @@
+---
+title: "Efficient 3-D Near-Field MIMO-SAR Imaging for Irregular Scanning Geometries"
+description: "How to keep fast FFT-based radar imaging when the scanner wobbles — projecting irregular MIMO-SAR samples onto a virtual plane via a phase trick."
+date: "2022-01-24"
+categories: [SAR, mmWave, imaging, signal-processing]
+draft: true
+---
+
+**J. W. Smith and M. Torlak, "Efficient 3-D Near-Field MIMO-SAR Imaging for Irregular Scanning Geometries," *IEEE Access*, vol. 10, pp. 10283–10294, 2022.** · [DOI](https://doi.org/10.1109/ACCESS.2022.3145370)
+
+## The problem
+
+Synthetic aperture radar (SAR) builds a high-resolution image by moving a radar across an aperture and coherently combining the returns. At millimeter-wave (mmWave) frequencies — tens of GHz, wavelengths of a few millimeters — this gives you optical-like resolution that can see through cardboard, clothing, and packaging. The catch is that the fast, FFT-friendly reconstruction algorithms everyone relies on assume the radar samples sit on a clean, regular grid: a perfect plane, circle, or cylinder. Lab scanners and airport "quick personnel security" portals enforce this with precision motion stages.
+
+But the interesting new applications can't. Freehand imaging with a smartphone, drone-mounted (UAV) SAR, and automotive radar all scan along *irregular* trajectories — a human hand wobbles, a drone drifts, a car's path is whatever the road does. The radar is roughly pointed at the target, but its samples are scattered across many depth planes rather than lying on one. The standard fallback for irregular geometry is the back-projection algorithm (BPA), which is exact and robust but brutally expensive: its complexity scales as $O(N^6)$. That's a non-starter for the edge and mobile devices these applications target.
+
+Two complications stack on top. First, real mmWave radars are multiple-input multiple-output (MIMO): each transmit/receive (Tx/Rx) pair forms a *multistatic* measurement, not a clean monostatic one. Second, in the near field you can't wave away the geometry with far-field approximations. Prior work handled one issue or the other, usually under a coplanar assumption that simply doesn't hold once the scanner leaves the plane.
+
+## The idea
+
+We model an arbitrary 3-D scan as a **multi-planar multistatic** problem: the MIMO array visits many different $z$-planes as it moves, and on each plane it makes multistatic Tx/Rx measurements. The key move is to mathematically project every one of those scattered, multistatic samples onto a single **virtual planar monostatic** array sitting on a reference plane $Z_0$. Once the data look like a regular monostatic plane, the classic efficient reconstruction — the range migration algorithm (RMA, also called the $f$-$k$ algorithm) — just works.
+
+The projection is done by computing and removing a residual phase term for each sample. This is, to our knowledge, the first extension of the RMA that compensates for non-cooperative scanning *and* multistatic MIMO effects simultaneously, in the near field.
+
+## How it works
+
+Each Tx/Rx pair at depth $z_\ell$ measures a round-trip distance to a scatterer. We write the Tx and Rx positions relative to a virtual midpoint element $(x', y', Z_0)$, with $d_\ell^x, d_\ell^y$ the Tx–Rx separations and $d_\ell^z = z_\ell - Z_0$ the offset of that sample's plane from the reference plane. A third-order multivariate Taylor expansion of the round-trip distance (worked out in the paper's appendix) collapses to a clean approximation:
+
+$$R_\ell^{RT} \approx 2R_0 + 2 d_\ell^z + \frac{(d_\ell^x)^2 + (d_\ell^y)^2}{4 Z_0},$$
+
+where $R_0$ is the distance from the virtual monostatic element to the scatterer. The extra terms beyond $2R_0$ are exactly the error introduced by the multi-planar offset and the multistatic Tx/Rx split. So the relationship between the true measured response and the desired virtual monostatic response is a single multiplicative phase, $\hat{s} \approx s\, e^{jk\beta_\ell}$, with
+
+$$\beta_\ell = 2\left(d_\ell^z + \frac{(d_\ell^x)^2 + (d_\ell^y)^2}{4 Z_0}\right).$$
+
+Multiplying each sample by this phase correction does two jobs at once: it migrates samples from their scattered $z$-planes to $Z_0$, and it converts multistatic pairs into virtual monostatic elements. Crucially, this **drops the problem from 6-D** $(x_T, x_R, y_T, y_R, z_\ell, f)$ **to 3-D** $(x', y', f)$.
+
+After compensation the virtual samples are planar but generally *non-uniform* in $x$ and $y$, so we run the RMA with a non-uniform fast Fourier transform (NUFFT) using fast Gaussian gridding for the forward/inverse transforms and the Stolt interpolation step. The valid signal model holds for any ultra-wideband scheme — FMCW, PMCW, or OFDM — so the method covers both today's automotive FMCW radars and tomorrow's 5G/IoT OFDM sensors. The cross-range resolution follows the usual $\delta_x = \lambda_c Z_0 / (2 D_x)$, and range resolution is $\delta_z = c/(2B)$, set by bandwidth $B$.
+
+The whole compensation adds negligible cost on top of the RMA, which is $O(N^3 \log N)$ — versus $O(N^6)$ for the BPA.
+
+## Results
+
+We validated in simulation and on a hardware prototype: a Texas Instruments AWR1443BOOST MIMO radar (4 GHz bandwidth, 77–81 GHz; two Tx spaced $2\lambda_c$, four Rx spaced $\lambda_c/2$) on an $x$-$y$-$z$ mechanical scanner, with images reconstructed in MATLAB on a 12-core Ryzen 9 3900X.
+
+The speedups are the headline. For a 2-D cutout target with 102,956 irregular samples, the BPA took **1324.8 s** while our algorithm produced a comparable image in **1.1 s**. In 3-D the gap is enormous: the BPA needed **339,159.2 s** (over 90 hours) versus **4.8 s** for our method. On a larger hidden-tools target the 3-D BPA took **1,356,636.9 s** (more than 15 days) against **10.7 s** for ours. Naively running the RMA on the raw multi-planar data, by contrast, fails outright — the image is lost to distortion.
+
+Image quality holds up. Across simulated and empirical targets (a "UTD" point pattern, copper-clad cutouts, wrenches hidden in a box, metal cutouts in a purse), our reconstructions match the BPA's focusing with only slight artifacting. Robustness is strong too: at 79 GHz ($\lambda_c = 3.79$ mm), the method tolerates sample deviations of $\Delta_z^{\max} = 20$ cm — more than 50 wavelengths off the reference plane — with cross-range resolution barely affected and range resolution close to the ideal linear case.
+
+## Why it matters
+
+The result lets you keep FFT-speed imaging in settings where the scan geometry was supposed to make it impossible. By reducing a tangled 6-D multistatic, multi-planar problem to a 3-D monostatic-plane problem with one phase correction per sample, we get BPA-quality images at RMA cost — turning days of computation into seconds. That is exactly the trade emerging mmWave applications need: freehand smartphone scanners, drone-based and automotive SAR, and IoT sensors that have to reconstruct on-device, with no precision motion stage and no GPU farm. The same phase-compensation idea generalizes across FMCW and OFDM, so it isn't tied to one radar or one band.
