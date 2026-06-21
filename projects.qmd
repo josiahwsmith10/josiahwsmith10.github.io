@@ -41,6 +41,25 @@ is still unclaimed.
 
 *Write-up in progress — see the [Blog](blog.qmd).*
 
+## complextorch
+
+A lightweight **complex-valued neural network** library built on PyTorch — and the
+open-source foundation under the phase-aware work above. `complextorch.nn.*` mirrors
+`torch.nn.*` name-for-name, so a real-valued model ports to complex-valued by changing the
+import, running on PyTorch's native `cfloat` kernels.
+
+Beyond drop-in `Conv` / `Linear` / attention layers it ships variance-correct complex
+initializers, RNN/LSTM and Transformer stacks, batch/layer/RMS/group norm, magnitude and
+spectral pooling, Type-A / Type-B activations, variational-dropout & ARD sparsity, and a
+set of **U(1)-equivariant / -invariant "co-domain symmetry" modules** (SurReal, CDS) for
+data whose absolute phase is arbitrary — radar, MRI, comms. Python 3.10–3.12, 100% line
+coverage enforced in CI, [on PyPI](https://pypi.org/project/complextorch/).
+
+[Write-up →](posts/complextorch/index.qmd){.btn .btn-outline-primary .btn-sm}
+&nbsp; [Repository →](https://github.com/josiahwsmith10/complextorch){.btn .btn-outline-primary .btn-sm}
+&nbsp; [Docs →](https://josiahwsmith10.github.io/complextorch/latest/){.btn .btn-outline-primary .btn-sm}
+&nbsp; [Paper →](https://arxiv.org/abs/2309.07948){.btn .btn-outline-primary .btn-sm}
+
 ## ideas-geospatial
 
 A working notebook of geospatial research ideas being scoped and pruned, including the
