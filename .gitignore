@@ -17,3 +17,6 @@ __pycache__/
 # assemble the site without re-running code or fetching data.
 
 **/*.quarto_ipynb
+
+# scratch: extracted paper text for drafting (not part of the site)
+/.paper-text/
