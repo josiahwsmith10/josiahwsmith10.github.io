@@ -4,6 +4,7 @@ subtitle: "Curriculum vitae"
 toc: true
 csl: ieee.csl
 citeproc: false
+link-bibliography: true
 filters:
   - _filters/multibib.lua
 multibib:
@@ -40,48 +41,82 @@ geospatial foundation models · remote sensing for environmental and humanitaria
 
 ## Experience
 
-### Lead AI Scientist — Privateer Space
+### Geospatial AI — Privateer Space
 *Jan 2025 – Present*
 
-- Architected and shipped **Model Studio**, a multi-tenant no-code geospatial
-  CV/MLOps platform — automated planetary-scale preprocessing, foundation-model
-  fine-tuning, and one-click cloud/edge deployment — cutting non-experts'
-  time-to-solution from months to under a week.
-- Built the operational Earth-observation data layer end-to-end (Sentinel-1/2 and
-  high-resolution optical) with the `rasterio` / `geopandas` / `shapely` / `xarray` /
-  GDAL stack, and directed geospatial foundation-model research across optical and SAR.
+- Architected and shipped a multi-tenant no-code geospatial CV/MLOps platform that takes
+  non-experts from idea to deployed model — automating planetary-scale preprocessing,
+  foundation-model fine-tuning, and one-click cloud/edge deployment.
+- Built and owned the model fine-tuning, inference, and deployment orchestration backbone,
+  plus end-to-end production health (logs, metrics, alerts) across ingest, training, and
+  inference services.
+- Drove adoption of agentic engineering workflows, shipping production code across multiple
+  codebases.
 
 ### Principal Research Scientist — KBR
 *Sep 2023 – Jan 2025*
 
-- Led production SAR detection pipelines on large-scale sensor data, exploiting the
-  time-frequency signature of moving targets to lift detection mAP by **200%** and
-  downstream **F1 from 0.5 to 0.8**.
-- Built a PyTorch signal-processing library over SAR SLC and phase-history products;
-  accelerated ray tracing **400×** and image formation **1000×** with a dependency-free
-  C/C++ library, and shifted research teams toward modern foundation models.
+- Led production SAR pipelines for dark-vessel detection and refocusing of underway ships
+  at high resolution — joint time-frequency deep-learning tooling for ML on SAR SLC and
+  phase-history products at scale, improving dark-vessel detection **2×**.
+- Trained custom SAR foundation models and fine-tuned pretrained geospatial foundation
+  models on SAR data for ship feature extraction, moving-object refocusing, and
+  multi-sensor detection.
+- Accelerated production model training and inference with a dependency-free C/C++ ML
+  library, a custom SAR ray-tracing engine for synthetic moving-ship data generation
+  (**400×** speedup), and a SAR image-formation pipeline cutting wall-clock **1000×**.
 
 ### Postdoctoral Research Associate — The University of Texas at Dallas
 *Jan 2023 – Sep 2023*
 
-- Authored a hybrid deep-learning / signal-processing framework for SAR multiband
-  fusion achieving ~3× super-resolution on a hardware prototype; patented the
-  domain-informed architecture.
-- Developed complex-valued neural networks for frequency estimation, improving
-  probability of resolution by up to **15%** in low-SNR regimes.
+- Researched, published, and patented novel domain-informed machine-learning
+  architectures yielding faster-converging, performant, and generalizable models for RF
+  image and signal processing.
+- Authored a novel hybrid deep-learning / signal-processing framework for SAR multiband
+  fusion achieving nearly **3×** super-resolution on a prototype, reducing cost **10–20×**.
+- Developed complex-valued neural network (CVNN) solutions for frequency estimation,
+  improving probability of resolution by ~**10%** in degraded scenarios and up to **15%**
+  in low-SNR scenarios.
+- Published a smartphone-based SAR algorithm for concealed-object detection via a novel
+  imaging approach that reduced computation time **50,000×**, enabling real-time image
+  formation.
 
 ### Wireless Sensing Technologist (Research) — Microsoft
 *Sep 2022 – Jan 2023*
 
-- Built ML infrastructure for an ego-centric RF simulation platform (**10×** downstream
-  model efficiency); pioneered multimodal sensor fusion (RF, mmWave, ToF, LiDAR) and
-  filed patents on novel sensing architectures.
+- Built and shipped ML infrastructure, influencing cross-functional teams of architects
+  and scientists to advance AI sensing modalities and accelerating delivery timelines for
+  novel wireless-sensing products.
+- Pioneered multimodal sensor fusion (RF, mmWave, ToF, LiDAR) for advanced modeling and
+  full-body pose estimation, optimizing algorithms for performance-constrained environments.
+- Contributed to the broader AI research community — authoring multiple publications and
+  filing patents on novel sensing and tracking architectures within the first six months.
 
-### Earlier research internships
-*2019 – 2021*
+### Display Calibration AI/ML Intern — Apple
+*2021*
 
-- **Apple** — display-calibration AI/ML (2021); **IMEC** — computational imaging &
-  deep learning (2020); **Texas Instruments (TxACE)** — mmWave radar perception (2019).
+- Proposed and patented power-mitigation strategies enhancing display performance (**1.5×**
+  gain) while optimizing power and heat constraints through model-based techniques (shipped
+  in 2025 iPhone).
+- Developed holistic display-calibration techniques from register-level interface to
+  model-based gradient descent for **2×** calibration-time reduction on future display
+  technologies.
+- Deployed an automated ML solution that reduced production-line display-calibration time
+  **5×**.
+
+### Computational Imaging & Deep Learning Research Intern — IMEC
+*2020*
+
+- Created and published a state-of-the-art wireless 3-D hand-tracking input prototype
+  fusing signal processing and deep learning, outperforming prior SOTA localization **7×**.
+- Developed the first real-time data-streaming interface for automotive radars via
+  UDP-layer communications in C/C++ with a shared-memory MATLAB interface.
+
+### mmWave Radar Perception Intern — Texas Instruments (TxACE)
+*2019*
+
+- Researched mmWave radar perception and RF AI/ML for automotive and gesture-sensing
+  applications.
 
 ## Publications
 
