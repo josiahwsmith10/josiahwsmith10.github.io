@@ -1,0 +1,19 @@
+# Quarto build output (rendered by CI)
+/_site/
+/.quarto/
+
+# Python / uv
+.venv/
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+
+# NOTE: _freeze/ is intentionally NOT ignored — committed execution caches let CI
+# assemble the site without re-running code or fetching data.
+
+**/*.quarto_ipynb

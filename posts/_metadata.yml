@@ -1,0 +1,6 @@
+# Defaults applied to every post in this folder.
+author: "Josiah Smith"
+freeze: auto
+title-block-banner: true
+toc: true
+toc-depth: 3

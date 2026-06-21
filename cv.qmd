@@ -1,0 +1,42 @@
+---
+title: "CV"
+subtitle: "Curriculum vitae"
+toc: true
+---
+
+<!--
+  This is a skeleton — fill in the sections below.
+  Tip: a downloadable PDF can be linked here once you have one:
+  [Download PDF](cv.pdf){.btn .btn-outline-primary .btn-sm}
+
+  Publications can be auto-generated from a BibTeX file instead of being hand-listed.
+  Drop a references.bib in the repo and ask for the listing wiring.
+-->
+
+## Research interests
+
+Synthetic aperture radar · complex-valued / phase-aware deep learning ·
+geospatial foundation models · remote sensing for environmental and humanitarian use.
+
+## Education
+
+- **Ph.D.** — *Field, Institution, Year.*  <!-- fill in -->
+- **B.S.** — *Field, Institution, Year.*   <!-- fill in -->
+
+## Experience
+
+- *Role — Organization, Years.*  <!-- fill in -->
+
+## Selected publications
+
+*Add publications here (or wire up a BibTeX-driven listing).*  <!-- fill in -->
+
+## Skills
+
+- **Languages / tooling:** Python, PyTorch, `complextorch`, geospatial stack (rasterio, STAC), Modal.
+- **Domains:** SAR/InSAR, polarimetry, foundation-model adaptation, change detection.
+
+## Contact
+
+- Email: [josiahsmithphd@gmail.com](mailto:josiahsmithphd@gmail.com)
+- GitHub: [@josiahwsmith10](https://github.com/josiahwsmith10)

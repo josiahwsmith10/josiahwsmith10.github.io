@@ -1,0 +1,49 @@
+---
+title: "Projects"
+subtitle: "Active research and open-source work."
+toc: true
+---
+
+## GuacamayaSAR
+
+An open Sentinel-1 SAR companion to Microsoft AI for Good's Project Guacamaya, built to
+close the **cloud-cover gap** in optical Amazon deforestation monitoring. The Colombian
+Amazon is cloud-covered for roughly half the year; during those months optical alerts go
+quiet, and the operational SAR alert (Wageningen RADD) still misses real events.
+
+Two complementary branches feed a fused change-detection model:
+
+- **Amplitude branch** — OlmoEarth (AI2) as a frozen geospatial foundation backbone over
+  Sentinel-1 RTC scenes from the Microsoft Planetary Computer STAC catalog.
+- **Coherence branch** — ASF HyP3 burst-InSAR pairs producing interferometric coherence
+  and unwrapped phase, wired into a `torch.complex64` tensor. This phase-preserving,
+  complex-valued head is the novel contribution: coherence collapses on disturbance
+  independent of brightness.
+
+Headline metric: **recall on a curated set of 66 RADD-missed deforestation events** over
+Florencia, Caquetá.
+
+[Repository →](https://github.com/josiahwsmith10/GuacamayaSAR){.btn .btn-outline-primary .btn-sm}
+&nbsp; *Blog post forthcoming — see the [Blog](blog.qmd).*
+
+## NISAR L-band geo-FM gap
+
+Every public geospatial foundation model was pretrained on **C-band** SAR. NISAR is
+**L-band** — it penetrates vegetation canopy and has fundamentally different scattering
+physics. The wedge: frozen C-band-pretrained FMs should *not* transfer zero-shot to
+L-band NISAR. This project quantifies the gap by class, then proposes a phase-aware,
+truly complex-valued adapter on a frozen FM — leaning into L-band's real advantage for
+biomass under canopy.
+
+NISAR began continuous global L-band collection in Aug 2025, with calibrated products
+arriving mid-2026 — a narrow window in which "first published geo-FM evaluation on NISAR"
+is still unclaimed.
+
+*Write-up in progress — see the [Blog](blog.qmd).*
+
+## ideas-geospatial
+
+A working notebook of geospatial research ideas being scoped and pruned, including the
+NISAR L-band FM gap above, cross-sensor super-resolution, and an open ComSAR agent.
+
+<!-- Add links/repos here as these mature into public projects. -->

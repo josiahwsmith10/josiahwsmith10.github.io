@@ -1,0 +1,43 @@
+---
+title: "Josiah Smith"
+pagetitle: "Josiah Smith"
+about:
+  template: trestles
+  image: profile.svg
+  image-shape: round
+  links:
+    - icon: github
+      text: GitHub
+      href: https://github.com/josiahwsmith10
+    - icon: envelope
+      text: Email
+      href: mailto:josiahsmithphd@gmail.com
+    # Add more as you like, e.g.:
+    # - icon: linkedin
+    #   text: LinkedIn
+    #   href: https://www.linkedin.com/in/...
+    # - icon: mortarboard
+    #   text: Scholar
+    #   href: https://scholar.google.com/citations?user=...
+---
+
+<!-- Replace profile.svg with a real photo (e.g. profile.jpg) and update `image:` above. -->
+
+I work at the intersection of **synthetic aperture radar (SAR)**, **complex-valued
+neural networks**, and **geospatial foundation models** — building methods that keep
+phase information intact instead of throwing it away, and applying them to
+environmental and humanitarian remote sensing.
+
+Recent threads:
+
+- **Phase-aware SAR learning.** Complex-valued, coherence-preserving models for
+  change detection — SAR carries structure in phase that intensity-only pipelines discard.
+- **Geospatial foundation models on new sensors.** Quantifying where C-band-pretrained
+  foundation models break on L-band data (NISAR) and how to close the gap.
+- **Remote sensing for good.** Cloud-blind deforestation monitoring over the Colombian
+  Amazon, where optical alerts go quiet for half the year.
+
+See [**Projects**](projects.qmd) for what I'm building, the [**Blog**](blog.qmd) for
+write-ups, and my [**CV**](cv.qmd) for the longer version.
+
+<!-- This bio is a starting draft — edit freely to match how you'd describe yourself. -->

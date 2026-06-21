@@ -1,0 +1,12 @@
+[project]
+name = "josiahwsmith10-github-io"
+version = "0.1.0"
+description = "Source for josiahwsmith10.github.io — personal website + blog, built with Quarto."
+requires-python = ">=3.11"
+dependencies = [
+    "ipykernel>=7.3.0",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.11.0",
+    "numpy>=2.4.6",
+    "quarto-cli>=1.9.38",
+]

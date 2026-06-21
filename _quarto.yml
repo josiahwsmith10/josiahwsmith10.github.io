@@ -1,0 +1,48 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Josiah Smith"
+  description: "SAR & geospatial machine-learning research, notes, and projects."
+  site-url: https://josiahwsmith10.github.io
+  repo-url: https://github.com/josiahwsmith10/josiahwsmith10.github.io
+  navbar:
+    pinned: true
+    left:
+      - href: index.qmd
+        text: Home
+      - href: blog.qmd
+        text: Blog
+      - href: projects.qmd
+        text: Projects
+      - href: cv.qmd
+        text: CV
+    right:
+      - icon: github
+        href: https://github.com/josiahwsmith10
+        aria-label: GitHub
+  page-footer:
+    left: "© 2026 Josiah Smith"
+    center: "Built with [Quarto](https://quarto.org)."
+    right:
+      - icon: github
+        href: https://github.com/josiahwsmith10
+        aria-label: GitHub
+      - icon: rss
+        href: blog.xml
+        aria-label: RSS
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+    highlight-style: github
+
+# Execution results are cached in _freeze/ (committed) so CI assembles the site
+# without re-running heavy code or needing data access. Re-render locally to refresh.
+execute:
+  freeze: auto

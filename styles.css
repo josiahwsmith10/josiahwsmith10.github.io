@@ -1,0 +1,29 @@
+/* Light customizations on top of the cosmo theme. */
+
+:root {
+  --jws-accent: #2c7fb8;
+}
+
+/* Slightly roomier body text for long technical posts. */
+.quarto-title-block .description,
+main p,
+main li {
+  line-height: 1.65;
+}
+
+/* Tighten the listing cards a touch. */
+.quarto-listing .quarto-post {
+  border-bottom: 1px solid var(--bs-border-color);
+  padding-bottom: 0.75rem;
+}
+
+/* Make inline code stand out a bit less aggressively. */
+code:not(.sourceCode) {
+  color: var(--jws-accent);
+  background: transparent;
+}
+
+/* About-page avatar sizing guard. */
+.about-image img {
+  max-width: 240px;
+}
