@@ -2,15 +2,25 @@
 title: "CV"
 subtitle: "Curriculum vitae"
 toc: true
+csl: ieee.csl
+citeproc: false
+filters:
+  - _filters/multibib.lua
+multibib:
+  journal: references-journal.bib
+  letter: references-letter.bib
+  conference: references-conference.bib
+  preprint: references-preprint.bib
 ---
 
 <!--
-  This is a skeleton — fill in the sections below.
   Tip: a downloadable PDF can be linked here once you have one:
   [Download PDF](cv.pdf){.btn .btn-outline-primary .btn-sm}
 
-  Publications can be auto-generated from a BibTeX file instead of being hand-listed.
-  Drop a references.bib in the repo and ask for the listing wiring.
+  Publications are generated from the references-*.bib files in IEEE style
+  (ieee.csl) by _filters/multibib.lua — edit the .bib files, not the list below.
+  Each ### group maps to its bib via the `multibib:` map above and a
+  ::: {#refs-<id>} placeholder in the Publications section.
 -->
 
 ## Research interests
@@ -20,23 +30,112 @@ geospatial foundation models · remote sensing for environmental and humanitaria
 
 ## Education
 
-- **Ph.D.** — *Field, Institution, Year.*  <!-- fill in -->
-- **B.S.** — *Field, Institution, Year.*   <!-- fill in -->
+- **Ph.D., Electrical Engineering** — The University of Texas at Dallas, 2022.
+  GPA 4.0/4.0. Advisor: Prof. Murat Torlak. Dissertation: *Novel Hybrid-Learning
+  Algorithms for Improved Millimeter-Wave Imaging Systems*. Five first-author IEEE
+  papers; one granted patent.
+- **B.S., Electrical Engineering** — The University of Texas at Dallas, 2019.
+  GPA 3.98/4.0, *summa cum laude*; completed in three years. 2× UTDesign Senior
+  Capstone 1st place.
 
 ## Experience
 
-- *Role — Organization, Years.*  <!-- fill in -->
+### Lead AI Scientist — Privateer Space
+*Jan 2025 – Present*
 
-## Selected publications
+- Architected and shipped **Model Studio**, a multi-tenant no-code geospatial
+  CV/MLOps platform — automated planetary-scale preprocessing, foundation-model
+  fine-tuning, and one-click cloud/edge deployment — cutting non-experts'
+  time-to-solution from months to under a week.
+- Built the operational Earth-observation data layer end-to-end (Sentinel-1/2 and
+  high-resolution optical) with the `rasterio` / `geopandas` / `shapely` / `xarray` /
+  GDAL stack, and directed geospatial foundation-model research across optical and SAR.
 
-*Add publications here (or wire up a BibTeX-driven listing).*  <!-- fill in -->
+### Principal Research Scientist — KBR
+*Sep 2023 – Jan 2025*
+
+- Led production SAR detection pipelines on large-scale sensor data, exploiting the
+  time-frequency signature of moving targets to lift detection mAP by **200%** and
+  downstream **F1 from 0.5 to 0.8**.
+- Built a PyTorch signal-processing library over SAR SLC and phase-history products;
+  accelerated ray tracing **400×** and image formation **1000×** with a dependency-free
+  C/C++ library, and shifted research teams toward modern foundation models.
+
+### Postdoctoral Research Associate — The University of Texas at Dallas
+*Jan 2023 – Sep 2023*
+
+- Authored a hybrid deep-learning / signal-processing framework for SAR multiband
+  fusion achieving ~3× super-resolution on a hardware prototype; patented the
+  domain-informed architecture.
+- Developed complex-valued neural networks for frequency estimation, improving
+  probability of resolution by up to **15%** in low-SNR regimes.
+
+### Wireless Sensing Technologist (Research) — Microsoft
+*Sep 2022 – Jan 2023*
+
+- Built ML infrastructure for an ego-centric RF simulation platform (**10×** downstream
+  model efficiency); pioneered multimodal sensor fusion (RF, mmWave, ToF, LiDAR) and
+  filed patents on novel sensing architectures.
+
+### Earlier research internships
+*2019 – 2021*
+
+- **Apple** — display-calibration AI/ML (2021); **IMEC** — computational imaging &
+  deep learning (2020); **Texas Instruments (TxACE)** — mmWave radar perception (2019).
+
+## Publications
+
+Full list on [Google Scholar](https://scholar.google.com/citations?user=tZAFU0cAAAAJ).
+
+### Journal articles
+
+::: {#refs-journal}
+:::
+
+### Letters
+
+::: {#refs-letter}
+:::
+
+### Conference papers
+
+::: {#refs-conference}
+:::
+
+### Dissertation, preprints & software
+
+::: {#refs-preprint}
+:::
+
+## Patents
+
+- J. W. Smith and M. Torlak, "Deep Learning-Based Multiband Signal Fusion for 3-D SAR
+  Super-Resolution," **U.S. Patent 12,474,468 B2**, granted Nov. 2025. Assignee: Board
+  of Regents, The University of Texas System.
+- L. Zhu, J. W. Smith, and J. Jadidian, "Selective Sensor Activation Based on Multi-Chip
+  FMCW Radar," **U.S. Patent Appl. 2025/0328012 A1**, filed Apr. 2024 (pending).
+  Assignee: Microsoft Technology Licensing, LLC.
+
+## Awards & fellowships
+
+- TI Analog Excellence Graduate Research Fellowship
+- Louis Beecherl, Jr. Graduate Research Fellowship
+- Microsoft Research Ph.D. Fellowship (UT Dallas nominee)
+- 1st / 32, TxACE Symposium Student Poster Competition
+- 2× 1st place, UTDesign Senior Capstone Expo
 
 ## Skills
 
-- **Languages / tooling:** Python, PyTorch, `complextorch`, geospatial stack (rasterio, STAC), Modal.
-- **Domains:** SAR/InSAR, polarimetry, foundation-model adaptation, change detection.
+- **Languages / tooling:** Python, C/C++, MATLAB, PyTorch, TensorFlow, `complextorch`,
+  geospatial stack (rasterio, geopandas, shapely, xarray, GDAL, STAC), Modal.
+- **MLOps / systems:** Kubernetes, Argo, AWS/EKS, Docker, distributed training, CI/CD,
+  observability and on-call.
+- **Domains:** SAR/InSAR, polarimetry, complex-valued / phase-aware deep learning,
+  foundation-model adaptation, change detection, mmWave radar perception.
 
 ## Contact
 
 - Email: [josiahsmithphd@gmail.com](mailto:josiahsmithphd@gmail.com)
 - GitHub: [@josiahwsmith10](https://github.com/josiahwsmith10)
+- LinkedIn: [in/josiahwsmith](https://www.linkedin.com/in/josiahwsmith/)
+- Google Scholar: [profile](https://scholar.google.com/citations?user=tZAFU0cAAAAJ)

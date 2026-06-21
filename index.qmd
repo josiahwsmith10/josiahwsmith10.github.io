@@ -9,24 +9,33 @@ about:
     - icon: github
       text: GitHub
       href: https://github.com/josiahwsmith10
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/josiahwsmith/
+    - icon: mortarboard
+      text: Scholar
+      href: https://scholar.google.com/citations?user=tZAFU0cAAAAJ
     - icon: envelope
       text: Email
       href: mailto:josiahsmithphd@gmail.com
-    # Add more as you like, e.g.:
-    # - icon: linkedin
-    #   text: LinkedIn
-    #   href: https://www.linkedin.com/in/...
-    # - icon: mortarboard
-    #   text: Scholar
-    #   href: https://scholar.google.com/citations?user=...
 ---
 
 <!-- Replace profile.svg with a real photo (e.g. profile.jpg) and update `image:` above. -->
 
-I work at the intersection of **synthetic aperture radar (SAR)**, **complex-valued
-neural networks**, and **geospatial foundation models** — building methods that keep
-phase information intact instead of throwing it away, and applying them to
-environmental and humanitarian remote sensing.
+I'm an applied AI scientist (Ph.D., EE) building perception models that are **natively
+aware of the sensing physics of their data** — at the intersection of **synthetic
+aperture radar (SAR)**, **complex-valued neural networks**, and **geospatial foundation
+models** — rather than treating signals as generic pixels.
+
+My through-line is hybrid, phenomenology-aware machine learning: my Ph.D. fused the
+mechanics of SAR image formation and RF signal processing with deep learning to beat
+conventional computer vision, and I've carried that approach from radar imaging into
+operational Earth observation. I'm currently **Lead AI Scientist at Privateer Space**;
+previously KBR, Microsoft, Apple, IMEC, and Texas Instruments.
+
+What I care about most is pointing these methods at **geospatial humanitarian and
+agricultural problems** — sustainable, local-scale solutions to global challenges, like
+cloud-blind deforestation monitoring where optical alerts go quiet for half the year.
 
 Recent threads:
 
