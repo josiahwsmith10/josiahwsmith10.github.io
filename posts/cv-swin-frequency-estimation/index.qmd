@@ -3,7 +3,6 @@ title: "Frequency Estimation with a Complex-Valued Shifted Window (Swin) Transfo
 description: "A fully complex-valued 1-D Swin transformer for line-spectra frequency estimation that beats cResFreq with fewer parameters."
 date: "2024-02-01"
 categories: [complex-valued, transformers, signal-processing, frequency-estimation]
-draft: true
 ---
 
 **J. W. Smith and M. Torlak, "Frequency Estimation Using a Complex-Valued Shifted Window Transformer," *IEEE Geosci. Remote Sens. Lett.*, vol. 21, Art. 4012005, 2024.** · [Code](https://github.com/josiahwsmith10/spectral-super-resolution-swin) · [complextorch](https://github.com/josiahwsmith10/complextorch)

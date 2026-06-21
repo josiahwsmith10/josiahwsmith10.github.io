@@ -3,7 +3,6 @@ title: "A Vision Transformer for Near-Field SAR Super-Resolution under Array Per
 description: "A 69k-parameter vision transformer that cleans up near-field radar images blurred by sensor-position errors — beating the gold-standard algorithm at 1000x less compute."
 date: "2022-04-01"
 categories: [SAR, vision-transformer, super-resolution, mmWave]
-draft: true
 ---
 
 **J. W. Smith, Y. Alimam, G. Vedula, and M. Torlak, "A Vision Transformer Approach for Efficient Near-Field SAR Super-Resolution under Array Perturbation," *Proc. IEEE Texas Symp. Wireless & Microwave Circuits & Systems (WMCS)*, 2022.** · [DOI](https://doi.org/10.1109/WMCS55582.2022.9866326)

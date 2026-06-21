@@ -3,7 +3,6 @@ title: "Efficient 3-D Near-Field MIMO-SAR Imaging for Irregular Scanning Geometr
 description: "How to keep fast FFT-based radar imaging when the scanner wobbles — projecting irregular MIMO-SAR samples onto a virtual plane via a phase trick."
 date: "2022-01-24"
 categories: [SAR, mmWave, imaging, signal-processing]
-draft: true
 ---
 
 **J. W. Smith and M. Torlak, "Efficient 3-D Near-Field MIMO-SAR Imaging for Irregular Scanning Geometries," *IEEE Access*, vol. 10, pp. 10283–10294, 2022.** · [DOI](https://doi.org/10.1109/ACCESS.2022.3145370)

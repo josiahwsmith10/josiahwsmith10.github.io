@@ -3,7 +3,6 @@ title: "An FCNN Super-Resolution mmWave Radar Framework for a Contactless Musica
 description: "We turn an 8-channel automotive radar into a contactless instrument, using a super-resolution neural net to track a hand to millimeter precision."
 date: "2021-06-01"
 categories: [mmWave, radar, deep-learning, HCI]
-draft: true
 ---
 
 **J. W. Smith, O. Furxhi, and M. Torlak, "An FCNN-Based Super-Resolution mmWave Radar Framework for Contactless Musical Instrument Interface," *IEEE Trans. Multimedia*, vol. 24, pp. 2315–2328, 2021.** · [DOI](https://doi.org/10.1109/TMM.2021.3079695)

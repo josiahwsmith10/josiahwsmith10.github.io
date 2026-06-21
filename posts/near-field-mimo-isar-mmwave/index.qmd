@@ -3,7 +3,6 @@ title: "Near-Field MIMO-ISAR Millimeter-Wave Imaging"
 description: "How to merge MIMO radar arrays with rotational ISAR to get fast, high-resolution 3-D mmWave imaging without slow multistatic reconstruction."
 date: "2021-05-10"
 categories: [ISAR, mmWave, imaging, radar]
-draft: true
 ---
 
 **J. W. Smith, M. E. Yanik, and M. Torlak, "Near-Field MIMO-ISAR Millimeter-Wave Imaging," *Proc. IEEE Radar Conf. (RadarConf)*, 2020.**

@@ -3,7 +3,6 @@ title: "Sterile Training: Improved Static Hand-Gesture Classification on Deep CN
 description: "Aluminum hand cutouts give a radar CNN the sharp features real hands can't, pushing static-gesture accuracy from 85% to 93%."
 date: "2021-01-18"
 categories: [radar, deep-learning, gesture-recognition, mmWave]
-draft: true
 ---
 
 **J. W. Smith, S. Thiagarajan, R. Willis, Y. Makris, and M. Torlak, "Improved Static Hand Gesture Classification on Deep Convolutional Neural Networks Using a Novel Sterile Training Technique," *IEEE Access*, vol. 9, pp. 10893–10902, 2021.** · [DOI](https://doi.org/10.1109/ACCESS.2021.3051454)

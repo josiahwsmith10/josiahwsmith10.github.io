@@ -3,7 +3,6 @@ title: "Deep-Learning Multiband Signal Fusion for 3-D SAR Super-Resolution"
 description: "Two cheap 4 GHz radars, one neural net, an effective 21 GHz of bandwidth — kR-Net fuses multiband signals to sharpen 3-D radar images."
 date: "2023-02-01"
 categories: [SAR, mmWave, deep-learning, super-resolution, signal-fusion]
-draft: true
 ---
 
 **J. W. Smith and M. Torlak, "Deep Learning-Based Multiband Signal Fusion for 3-D SAR Super-Resolution," *IEEE Trans. Aerosp. Electron. Syst.*, 2023.** (This work is the basis of U.S. Patent 12,474,468 B2.)
