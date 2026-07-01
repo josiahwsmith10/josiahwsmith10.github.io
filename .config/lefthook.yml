@@ -1,0 +1,15 @@
+# Git hooks (installed by `lefthook install`, run automatically via the "prepare" script).
+# pre-push mirrors the CI `checks` job, so failures are caught before they ever reach GitHub.
+# These are whole-project gates (no file filter), so they always run — not scoped to the
+# pushed files. lefthook v2 `jobs:` syntax; a job with a bare `run:` runs unconditionally.
+pre-push:
+  parallel: true
+  jobs:
+    - name: typecheck
+      run: npm run typecheck
+    - name: lint
+      run: npm run lint
+    - name: format
+      run: npm run format:check
+    - name: test
+      run: npm test

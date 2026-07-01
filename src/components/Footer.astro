@@ -4,6 +4,7 @@ import Icon from './Icon.astro';
 const year = 2026;
 const iconSocials = socials.filter((s) => s.key !== 'email');
 ---
+
 <footer class="footer" data-pagefind-ignore>
   <div class="footer__inner container">
     <div class="footer__meta">
@@ -11,11 +12,19 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
       <span class="footer__tag">SAR · complex-valued ML · geospatial FMs</span>
     </div>
     <div class="footer__links">
-      {iconSocials.map((s) => (
-        <a class="footer__link" href={s.href} target="_blank" rel="me noopener" aria-label={s.label}>
-          <Icon name={s.key as any} />
-        </a>
-      ))}
+      {
+        iconSocials.map((s) => (
+          <a
+            class="footer__link"
+            href={s.href}
+            target="_blank"
+            rel="me noopener"
+            aria-label={s.label}
+          >
+            <Icon name={s.key} />
+          </a>
+        ))
+      }
       <a class="footer__link" href="/blog.xml" aria-label="RSS feed"><Icon name="rss" /></a>
     </div>
   </div>
@@ -46,7 +55,17 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
     letter-spacing: 0.06em;
     color: var(--mist);
   }
-  .footer__links { display: flex; gap: var(--sp-4); font-size: 1.15rem; }
-  .footer__link { color: var(--mist); display: inline-grid; place-items: center; }
-  .footer__link:hover { color: var(--forest); }
+  .footer__links {
+    display: flex;
+    gap: var(--sp-4);
+    font-size: 1.15rem;
+  }
+  .footer__link {
+    color: var(--mist);
+    display: inline-grid;
+    place-items: center;
+  }
+  .footer__link:hover {
+    color: var(--forest);
+  }
 </style>

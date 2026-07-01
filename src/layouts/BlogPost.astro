@@ -13,6 +13,7 @@ const { title, description, date, tags, author, draft } = post.data;
 const minutes = readingTime(post.body);
 const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
 ---
+
 <Base title={`${title} — Josiah Smith`} description={description} ogType="article" noindex={draft}>
   <article class="post" data-pagefind-body={draft ? undefined : true}>
     <header class="post__head container">
@@ -20,12 +21,27 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
         <time datetime={isoDate(date)}>{formatDate(date)}</time>
         <span class="dot">·</span>
         <span>{minutes} min read</span>
-        {draft && (<><span class="dot">·</span><span class="post__draft">draft</span></>)}
+        {
+          draft && (
+            <>
+              <>
+                <span class="dot">·</span>
+                <span class="post__draft">draft</span>
+              </>
+            </>
+          )
+        }
       </div>
       <h1 class="post__title">{title}</h1>
       <p class="post__desc">{description}</p>
       <div class="post__tags">
-        {tags.map((t) => <a class="chip" href={`/blog/?tag=${encodeURIComponent(t)}`}>{t}</a>)}
+        {
+          tags.map((t) => (
+            <a class="chip" href={`/blog/?tag=${encodeURIComponent(t)}`}>
+              {t}
+            </a>
+          ))
+        }
       </div>
       <p class="post__byline eyebrow">By {author}</p>
     </header>
@@ -35,20 +51,22 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
         <slot />
       </div>
 
-      {toc.length > 2 && (
-        <aside class="post__toc" aria-label="On this page" data-pagefind-ignore>
-          <p class="eyebrow toc__label">On this page</p>
-          <nav>
-            <ul>
-              {toc.map((h) => (
-                <li class:list={['toc__item', { 'toc__item--sub': h.depth === 3 }]}>
-                  <a href={`#${h.slug}`}>{h.text}</a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        </aside>
-      )}
+      {
+        toc.length > 2 && (
+          <aside class="post__toc" aria-label="On this page" data-pagefind-ignore>
+            <p class="eyebrow toc__label">On this page</p>
+            <nav>
+              <ul>
+                {toc.map((h) => (
+                  <li class:list={['toc__item', { 'toc__item--sub': h.depth === 3 }]}>
+                    <a href={`#${h.slug}`}>{h.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </aside>
+        )
+      }
     </div>
 
     <footer class="post__foot container" data-pagefind-ignore>
@@ -74,8 +92,12 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
     text-transform: uppercase;
     color: var(--mist);
   }
-  .post__eyebrow .dot { color: var(--rule); }
-  .post__draft { color: var(--nisar); }
+  .post__eyebrow .dot {
+    color: var(--rule);
+  }
+  .post__draft {
+    color: var(--nisar);
+  }
   .post__title {
     font-size: var(--fs-2xl);
     line-height: 1.08;
@@ -89,8 +111,15 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
     margin-top: var(--sp-4);
     max-width: 44rem;
   }
-  .post__tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: var(--sp-5); }
-  .post__byline { margin-top: var(--sp-4); }
+  .post__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: var(--sp-5);
+  }
+  .post__byline {
+    margin-top: var(--sp-4);
+  }
 
   .chip {
     font-family: var(--font-mono);
@@ -101,7 +130,10 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
     padding: 0.2rem 0.5rem;
     border: 1px solid transparent;
   }
-  .chip:hover { border-color: var(--forest); text-decoration: none; }
+  .chip:hover {
+    border-color: var(--forest);
+    text-decoration: none;
+  }
 
   /* Body grid: prose + sticky TOC on wide screens. */
   .post__body {
@@ -117,11 +149,30 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
     align-self: start;
     max-width: 16rem;
   }
-  .toc__label { margin-bottom: var(--sp-3); padding-bottom: var(--sp-2); border-bottom: 1px solid var(--rule); }
-  .post__toc ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.35rem; }
-  .toc__item a { color: var(--mist); font-size: var(--fs-xs); line-height: 1.35; }
-  .toc__item a:hover { color: var(--forest); text-decoration: none; }
-  .toc__item--sub { padding-left: 0.9rem; }
+  .toc__label {
+    margin-bottom: var(--sp-3);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--rule);
+  }
+  .post__toc ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .toc__item a {
+    color: var(--mist);
+    font-size: var(--fs-xs);
+    line-height: 1.35;
+  }
+  .toc__item a:hover {
+    color: var(--forest);
+    text-decoration: none;
+  }
+  .toc__item--sub {
+    padding-left: 0.9rem;
+  }
 
   .post__foot {
     margin-top: var(--sp-8);
@@ -131,7 +182,11 @@ const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
   }
 
   @media (max-width: 60rem) {
-    .post__body { grid-template-columns: minmax(0, 1fr); }
-    .post__toc { display: none; }
+    .post__body {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .post__toc {
+      display: none;
+    }
   }
 </style>

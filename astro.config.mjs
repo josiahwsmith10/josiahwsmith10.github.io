@@ -20,8 +20,7 @@ export default defineConfig({
       styleOverrides: {
         borderRadius: '0px',
         borderColor: '#dbe0d8',
-        codeFontFamily:
-          "'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
+        codeFontFamily: "'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace",
         codeFontSize: '0.86rem',
         frames: {
           shadowColor: 'transparent',
@@ -36,8 +35,7 @@ export default defineConfig({
     // any post carrying `draft: true`.
     sitemap({
       filter: (page) =>
-        !/\/blog\/(nisar-lband-fm-gap|guacamayasar)\/?$/.test(page) &&
-        !/\/search\/?$/.test(page),
+        !/\/blog\/(nisar-lband-fm-gap|guacamayasar)\/?$/.test(page) && !/\/search\/?$/.test(page),
     }),
   ],
 

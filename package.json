@@ -4,12 +4,23 @@
   "version": "1.0.0",
   "private": true,
   "description": "Personal site + blog — SAR & geospatial machine-learning research.",
+  "engines": {
+    "node": ">=22.12"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build && pagefind --site dist",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "typecheck": "astro check",
+    "lint": "eslint --config .config/eslint.config.js .",
+    "lint:fix": "eslint --config .config/eslint.config.js . --fix",
+    "format": "prettier --config .config/prettierrc.json --write .",
+    "format:check": "prettier --config .config/prettierrc.json --check .",
+    "test": "vitest run --config .config/vitest.config.ts",
+    "test:watch": "vitest --config .config/vitest.config.ts",
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "@astrojs/mdx": "^7.0.0",
@@ -31,8 +42,20 @@
     "remark-math": "^6.0.0"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.9",
+    "@eslint/js": "^10.0.1",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "pagefind": "^1.5.2"
+    "eslint": "^10.6.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^2.1.1",
+    "globals": "^17.7.0",
+    "lefthook": "^2.1.9",
+    "pagefind": "^1.5.2",
+    "prettier": "^3.9.4",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.62.1",
+    "vitest": "^4.1.9"
   }
 }

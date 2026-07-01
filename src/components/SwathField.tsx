@@ -57,10 +57,14 @@ export default function SwathField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
+    // Capture into consts whose *declared* types are non-null: TS drops flow
+    // narrowing across the nested render-closure boundaries below, but it keeps a
+    // const's declared type, so this preserves the guards without `!` everywhere.
+    if (!canvasRef.current) return;
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d', { alpha: false });
-    if (!ctx) return;
+    const context = canvas.getContext('2d', { alpha: false });
+    if (!context) return;
+    const ctx = context;
 
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
 

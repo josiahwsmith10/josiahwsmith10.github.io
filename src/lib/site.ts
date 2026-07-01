@@ -20,6 +20,10 @@ export const nav = [
 export const socials = [
   { key: 'github', label: 'GitHub', href: 'https://github.com/josiahwsmith10' },
   { key: 'linkedin', label: 'LinkedIn', href: 'https://www.linkedin.com/in/josiahwsmith/' },
-  { key: 'scholar', label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=tZAFU0cAAAAJ' },
+  {
+    key: 'scholar',
+    label: 'Google Scholar',
+    href: 'https://scholar.google.com/citations?user=tZAFU0cAAAAJ',
+  },
   { key: 'email', label: 'Email', href: 'mailto:josiahsmithphd@gmail.com' },
 ] as const;

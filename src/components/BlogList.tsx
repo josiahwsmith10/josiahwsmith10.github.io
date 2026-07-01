@@ -90,12 +90,7 @@ export default function BlogList({ posts, allTags }: Props) {
             <p className="postcard__desc">{p.description}</p>
             <div className="postcard__tags">
               {p.tags.map((t) => (
-                <button
-                  key={t}
-                  type="button"
-                  className="postcard__tag"
-                  onClick={() => setTag(t)}
-                >
+                <button key={t} type="button" className="postcard__tag" onClick={() => setTag(t)}>
                   {t}
                 </button>
               ))}

@@ -117,67 +117,92 @@ const patents = [
   'L. Zhu, J. W. Smith, and J. Jadidian, “Selective Sensor Activation Based on Multi-Chip FMCW Radar,” <strong>U.S. Patent Appl. 2025/0328012 A1</strong>, filed Apr. 2024 (pending). Assignee: Microsoft Technology Licensing, LLC.',
 ];
 ---
-<Base title="CV — Josiah Smith" description="Curriculum vitae — Josiah W. Smith, Ph.D. SAR, complex-valued deep learning, and geospatial foundation models.">
+
+<Base
+  title="CV — Josiah Smith"
+  description="Curriculum vitae — Josiah W. Smith, Ph.D. SAR, complex-valued deep learning, and geospatial foundation models."
+>
   <div class="cv container" data-pagefind-body>
     <header class="cv__head">
       <p class="eyebrow">Curriculum Vitae</p>
       <h1 class="cv__name">Josiah W. Smith</h1>
       <p class="cv__interests">
-        Synthetic aperture radar · complex-valued / phase-aware deep learning ·
-        geospatial foundation models · remote sensing for environmental and
-        humanitarian use.
+        Synthetic aperture radar · complex-valued / phase-aware deep learning · geospatial
+        foundation models · remote sensing for environmental and humanitarian use.
       </p>
       <div class="cv__contact">
-        {socials.map((s) => (
-          <a class="link-arrow" href={s.href} target={s.href.startsWith('mailto') ? undefined : '_blank'} rel="noopener">{s.label} →</a>
-        ))}
+        {
+          socials.map((s) => (
+            <a
+              class="link-arrow"
+              href={s.href}
+              target={s.href.startsWith('mailto') ? undefined : '_blank'}
+              rel="noopener"
+            >
+              {s.label} →
+            </a>
+          ))
+        }
       </div>
     </header>
 
     <section class="cv__section">
       <div class="rule-label"><span class="eyebrow">Experience</span></div>
       <ol class="cv__list">
-        {experience.map((e) => (
-          <li class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">{e.role}</h3>
-              <span class="entry__dates">{e.dates}</span>
-            </div>
-            <p class="entry__org">{e.org}</p>
-            <ul class="entry__bullets">
-              {e.bullets.map((b) => <li set:html={b} />)}
-            </ul>
-          </li>
-        ))}
+        {
+          experience.map((e) => (
+            <li class="entry">
+              <div class="entry__head">
+                <h3 class="entry__role">{e.role}</h3>
+                <span class="entry__dates">{e.dates}</span>
+              </div>
+              <p class="entry__org">{e.org}</p>
+              <ul class="entry__bullets">
+                {e.bullets.map((b) => (
+                  <li set:html={b} />
+                ))}
+              </ul>
+            </li>
+          ))
+        }
       </ol>
     </section>
 
     <section class="cv__section">
       <div class="rule-label"><span class="eyebrow">Education</span></div>
       <ol class="cv__list">
-        {education.map((e) => (
-          <li class="entry">
-            <div class="entry__head">
-              <h3 class="entry__role">{e.degree}</h3>
-            </div>
-            <p class="entry__org">{e.org}</p>
-            <p class="entry__note" set:html={e.note} />
-          </li>
-        ))}
+        {
+          education.map((e) => (
+            <li class="entry">
+              <div class="entry__head">
+                <h3 class="entry__role">{e.degree}</h3>
+              </div>
+              <p class="entry__org">{e.org}</p>
+              <p class="entry__note" set:html={e.note} />
+            </li>
+          ))
+        }
       </ol>
     </section>
 
     <section class="cv__section">
       <div class="rule-label">
         <span class="eyebrow">Publications</span>
-        <a class="eyebrow cv__scholar" href="https://scholar.google.com/citations?user=tZAFU0cAAAAJ" target="_blank" rel="noopener">Google Scholar →</a>
+        <a
+          class="eyebrow cv__scholar"
+          href="https://scholar.google.com/citations?user=tZAFU0cAAAAJ"
+          target="_blank"
+          rel="noopener">Google Scholar →</a
+        >
       </div>
-      {pubs.map((g) => (
-        <div class="pubs">
-          <h3 class="pubs__label">{g.label}</h3>
-          <div class="pubs__body" set:html={g.html} />
-        </div>
-      ))}
+      {
+        pubs.map((g) => (
+          <div class="pubs">
+            <h3 class="pubs__label">{g.label}</h3>
+            <div class="pubs__body" set:html={g.html} />
+          </div>
+        ))
+      }
     </section>
 
     <section class="cv__section">
@@ -197,20 +222,28 @@ const patents = [
     <section class="cv__section">
       <div class="rule-label"><span class="eyebrow">Skills</span></div>
       <dl class="cv__skills">
-        {skills.map((s) => (
-          <div class="skill">
-            <dt>{s.label}</dt>
-            <dd set:html={s.body} />
-          </div>
-        ))}
+        {
+          skills.map((s) => (
+            <div class="skill">
+              <dt>{s.label}</dt>
+              <dd set:html={s.body} />
+            </div>
+          ))
+        }
       </dl>
     </section>
   </div>
 </Base>
 
 <style>
-  .cv { max-width: 52rem; padding-top: var(--sp-8); }
-  .cv__name { font-size: var(--fs-2xl); margin-top: var(--sp-3); }
+  .cv {
+    max-width: 52rem;
+    padding-top: var(--sp-8);
+  }
+  .cv__name {
+    font-size: var(--fs-2xl);
+    margin-top: var(--sp-3);
+  }
   .cv__interests {
     font-family: var(--font-serif);
     font-size: var(--fs-md);
@@ -219,12 +252,28 @@ const patents = [
     margin-top: var(--sp-4);
     max-width: 44rem;
   }
-  .cv__contact { display: flex; flex-wrap: wrap; gap: var(--sp-4); margin-top: var(--sp-5); }
+  .cv__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    margin-top: var(--sp-5);
+  }
 
-  .cv__section { margin-top: var(--sp-8); }
-  .cv__scholar { margin-left: auto; color: var(--forest) !important; }
+  .cv__section {
+    margin-top: var(--sp-8);
+  }
+  .cv__scholar {
+    margin-left: auto;
+    color: var(--forest) !important;
+  }
 
-  .cv__list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--sp-6); }
+  .cv__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
   .entry__head {
     display: flex;
     justify-content: space-between;
@@ -232,7 +281,9 @@ const patents = [
     gap: var(--sp-4);
     flex-wrap: wrap;
   }
-  .entry__role { font-size: var(--fs-lg); }
+  .entry__role {
+    font-size: var(--fs-lg);
+  }
   .entry__dates {
     font-family: var(--font-mono);
     font-size: var(--fs-2xs);
@@ -246,16 +297,46 @@ const patents = [
     color: var(--forest-deep);
     margin-top: 0.15rem;
   }
-  .entry__bullets { margin-top: var(--sp-3); padding-left: 1.15em; }
-  .entry__bullets li { margin-top: var(--sp-2); font-size: var(--fs-sm); line-height: 1.55; color: var(--ink-soft); }
-  .entry__note { margin-top: var(--sp-2); font-size: var(--fs-sm); color: var(--ink-soft); }
-  .entry :global(strong) { color: var(--ink); font-weight: 600; }
+  .entry__bullets {
+    margin-top: var(--sp-3);
+    padding-left: 1.15em;
+  }
+  .entry__bullets li {
+    margin-top: var(--sp-2);
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .entry__note {
+    margin-top: var(--sp-2);
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+  }
+  .entry :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
 
-  .cv__plain { padding-left: 1.15em; display: flex; flex-direction: column; gap: var(--sp-3); }
-  .cv__plain li { font-size: var(--fs-sm); line-height: 1.55; color: var(--ink-soft); }
+  .cv__plain {
+    padding-left: 1.15em;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+  .cv__plain li {
+    font-size: var(--fs-sm);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
 
-  .pubs { margin-top: var(--sp-5); }
-  .pubs__label { font-size: var(--fs-md); color: var(--ink); margin-bottom: var(--sp-3); }
+  .pubs {
+    margin-top: var(--sp-5);
+  }
+  .pubs__label {
+    font-size: var(--fs-md);
+    color: var(--ink);
+    margin-bottom: var(--sp-3);
+  }
   .pubs__body :global(.csl-entry) {
     display: flex;
     gap: 0.6rem;
@@ -270,9 +351,16 @@ const patents = [
     color: var(--forest);
     white-space: nowrap;
   }
-  .pubs__body :global(a) { font-weight: 500; word-break: break-word; }
+  .pubs__body :global(a) {
+    font-weight: 500;
+    word-break: break-word;
+  }
 
-  .cv__skills { display: flex; flex-direction: column; gap: var(--sp-4); }
+  .cv__skills {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
   .skill dt {
     font-family: var(--font-mono);
     font-size: var(--fs-2xs);
@@ -281,6 +369,13 @@ const patents = [
     color: var(--forest-deep);
     margin-bottom: 0.25rem;
   }
-  .skill dd { margin: 0; font-size: var(--fs-sm); color: var(--ink-soft); line-height: 1.55; }
-  .skill :global(code) { color: var(--forest-deep); }
+  .skill dd {
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+  .skill :global(code) {
+    color: var(--forest-deep);
+  }
 </style>

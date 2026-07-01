@@ -23,6 +23,7 @@ const threads = [
   },
 ];
 ---
+
 <Base>
   <Hero />
 
@@ -32,16 +33,18 @@ const threads = [
       <span class="eyebrow" style="color:var(--forest)">what I'm chasing</span>
     </div>
     <ol class="threads__list">
-      {threads.map((t) => (
-        <li class="thread">
-          <span class="thread__n">{t.n}</span>
-          <div class="thread__body">
-            <h3 class="thread__title">{t.title}</h3>
-            <p class="thread__text">{t.body}</p>
-            <span class="thread__tag">{t.tag}</span>
-          </div>
-        </li>
-      ))}
+      {
+        threads.map((t) => (
+          <li class="thread">
+            <span class="thread__n">{t.n}</span>
+            <div class="thread__body">
+              <h3 class="thread__title">{t.title}</h3>
+              <p class="thread__text">{t.body}</p>
+              <span class="thread__tag">{t.tag}</span>
+            </div>
+          </li>
+        ))
+      }
     </ol>
   </section>
 
@@ -50,20 +53,23 @@ const threads = [
       <p class="eyebrow">Now</p>
       <p class="now__lead">
         I'm <strong>AI Computer Vision Scientist at Privateer&nbsp;Space</strong>, building the
-        geospatial ML platform that turns raw satellite data into deployed models.
-        Before that: KBR, Microsoft, Apple, IMEC, and Texas&nbsp;Instruments.
+        geospatial ML platform that turns raw satellite data into deployed models. Before that: KBR,
+        Microsoft, Apple, IMEC, and Texas&nbsp;Instruments.
       </p>
       <p class="now__text">
-        What I care about most is pointing these methods at geospatial humanitarian
-        and agricultural problems — sustainable, local-scale solutions to global
-        challenges. <a href="/cv">The long version lives in the CV →</a>
+        What I care about most is pointing these methods at geospatial humanitarian and agricultural
+        problems — sustainable, local-scale solutions to global challenges. <a href="/cv"
+          >The long version lives in the CV →</a
+        >
       </p>
     </div>
   </section>
 </Base>
 
 <style>
-  .threads { margin-top: var(--sp-9); }
+  .threads {
+    margin-top: var(--sp-9);
+  }
   .threads__list {
     list-style: none;
     padding: 0;
@@ -85,8 +91,13 @@ const threads = [
     color: var(--forest);
     letter-spacing: 0.02em;
   }
-  .thread__title { font-size: var(--fs-lg); }
-  .thread__text { color: var(--ink-soft); font-size: var(--fs-sm); }
+  .thread__title {
+    font-size: var(--fs-lg);
+  }
+  .thread__text {
+    color: var(--ink-soft);
+    font-size: var(--fs-sm);
+  }
   .thread__tag {
     font-family: var(--font-mono);
     font-size: var(--fs-3xs);
@@ -96,8 +107,12 @@ const threads = [
     margin-top: auto;
   }
 
-  .now { margin-top: var(--sp-9); }
-  .measure-wide { max-width: 54rem; }
+  .now {
+    margin-top: var(--sp-9);
+  }
+  .measure-wide {
+    max-width: 54rem;
+  }
   .now__lead {
     font-family: var(--font-serif);
     font-size: var(--fs-lg);
@@ -105,11 +120,24 @@ const threads = [
     color: var(--ink);
     margin-top: var(--sp-3);
   }
-  .now__text { margin-top: var(--sp-4); color: var(--ink-soft); max-width: 46rem; }
+  .now__text {
+    margin-top: var(--sp-4);
+    color: var(--ink-soft);
+    max-width: 46rem;
+  }
 
   @media (max-width: 52rem) {
-    .threads__list { grid-template-columns: 1fr; gap: var(--sp-5); }
-    .thread { flex-direction: row; align-items: baseline; gap: var(--sp-4); }
-    .thread__n { min-width: 2.2rem; }
+    .threads__list {
+      grid-template-columns: 1fr;
+      gap: var(--sp-5);
+    }
+    .thread {
+      flex-direction: row;
+      align-items: baseline;
+      gap: var(--sp-4);
+    }
+    .thread__n {
+      min-width: 2.2rem;
+    }
   }
 </style>

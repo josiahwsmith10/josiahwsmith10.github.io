@@ -9,13 +9,16 @@ interface Props {
 }
 const { src, alt } = Astro.props;
 ---
+
 <figure class="fig">
   <Image src={src} alt={alt} widths={[480, 800, 1200]} sizes="(max-width: 44rem) 100vw, 40rem" />
   <figcaption class="fig__cap"><slot /></figcaption>
 </figure>
 
 <style>
-  .fig { margin-block: var(--sp-6); }
+  .fig {
+    margin-block: var(--sp-6);
+  }
   .fig :global(img) {
     width: 100%;
     height: auto;
@@ -31,5 +34,8 @@ const { src, alt } = Astro.props;
     padding-left: 0.7rem;
     border-left: 2px solid var(--forest);
   }
-  .fig__cap :global(strong) { color: var(--ink); font-weight: 600; }
+  .fig__cap :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
 </style>

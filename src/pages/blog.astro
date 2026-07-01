@@ -23,17 +23,21 @@ const cards: PostCard[] = posts.map((p) => ({
 const counts = new Map<string, number>();
 for (const c of cards) for (const t of c.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
 const allTags = [...counts.keys()].sort(
-  (a, b) => (counts.get(b)! - counts.get(a)!) || a.localeCompare(b),
+  (a, b) => counts.get(b)! - counts.get(a)! || a.localeCompare(b),
 );
 ---
-<Base title="Blog — Josiah Smith" description="Notes on SAR, complex-valued networks, and geospatial ML.">
+
+<Base
+  title="Blog — Josiah Smith"
+  description="Notes on SAR, complex-valued networks, and geospatial ML."
+>
   <div class="blog container">
     <header class="blog__head">
       <p class="eyebrow">Writing</p>
       <h1 class="blog__title">Notes from the signal</h1>
       <p class="blog__lead">
-        Write-ups on synthetic aperture radar, complex-valued and phase-aware deep
-        learning, and adapting geospatial foundation models to new sensors.
+        Write-ups on synthetic aperture radar, complex-valued and phase-aware deep learning, and
+        adapting geospatial foundation models to new sensors.
       </p>
     </header>
 
@@ -42,8 +46,14 @@ const allTags = [...counts.keys()].sort(
 </Base>
 
 <style is:global>
-  .blog { max-width: 52rem; padding-top: var(--sp-8); }
-  .blog__title { font-size: var(--fs-2xl); margin-top: var(--sp-3); }
+  .blog {
+    max-width: 52rem;
+    padding-top: var(--sp-8);
+  }
+  .blog__title {
+    font-size: var(--fs-2xl);
+    margin-top: var(--sp-3);
+  }
   .blog__lead {
     font-family: var(--font-serif);
     font-size: var(--fs-md);
@@ -53,7 +63,9 @@ const allTags = [...counts.keys()].sort(
     max-width: 42rem;
   }
 
-  .bloglist { margin-top: var(--sp-7); }
+  .bloglist {
+    margin-top: var(--sp-7);
+  }
   .bloglist__bar {
     display: flex;
     justify-content: space-between;
@@ -63,7 +75,12 @@ const allTags = [...counts.keys()].sort(
     padding-bottom: var(--sp-4);
     border-bottom: 1px solid var(--rule);
   }
-  .bloglist__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; max-width: 40rem; }
+  .bloglist__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    max-width: 40rem;
+  }
   .tagbtn {
     font-family: var(--font-mono);
     font-size: var(--fs-3xs);
@@ -75,7 +92,10 @@ const allTags = [...counts.keys()].sort(
     cursor: pointer;
     transition: all 0.14s var(--ease);
   }
-  .tagbtn:hover { color: var(--ink); border-color: var(--mist); }
+  .tagbtn:hover {
+    color: var(--ink);
+    border-color: var(--mist);
+  }
   .tagbtn.is-on {
     color: var(--paper);
     background: var(--forest);
@@ -111,7 +131,11 @@ const allTags = [...counts.keys()].sort(
     margin-top: var(--sp-4);
   }
 
-  .bloglist__list { list-style: none; padding: 0; margin-top: var(--sp-3); }
+  .bloglist__list {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--sp-3);
+  }
   .postcard {
     padding: var(--sp-5) 0;
     border-bottom: 1px solid var(--rule);
@@ -126,10 +150,21 @@ const allTags = [...counts.keys()].sort(
     text-transform: uppercase;
     color: var(--mist);
   }
-  .postcard__meta .dot { color: var(--rule); }
-  .postcard__title { font-size: var(--fs-lg); margin-top: var(--sp-2); line-height: 1.2; }
-  .postcard__title a { color: var(--ink); }
-  .postcard__title a:hover { color: var(--forest-deep); text-decoration: none; }
+  .postcard__meta .dot {
+    color: var(--rule);
+  }
+  .postcard__title {
+    font-size: var(--fs-lg);
+    margin-top: var(--sp-2);
+    line-height: 1.2;
+  }
+  .postcard__title a {
+    color: var(--ink);
+  }
+  .postcard__title a:hover {
+    color: var(--forest-deep);
+    text-decoration: none;
+  }
   .postcard__desc {
     margin-top: var(--sp-3);
     color: var(--ink-soft);
@@ -137,7 +172,12 @@ const allTags = [...counts.keys()].sort(
     line-height: 1.55;
     max-width: 44rem;
   }
-  .postcard__tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: var(--sp-4); }
+  .postcard__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: var(--sp-4);
+  }
   .postcard__tag {
     font-family: var(--font-mono);
     font-size: var(--fs-3xs);
@@ -148,5 +188,7 @@ const allTags = [...counts.keys()].sort(
     padding: 0.18rem 0.5rem;
     cursor: pointer;
   }
-  .postcard__tag:hover { border-color: var(--forest); }
+  .postcard__tag:hover {
+    border-color: var(--forest);
+  }
 </style>

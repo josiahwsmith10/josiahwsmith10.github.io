@@ -9,10 +9,11 @@ interface Props {
 const { href, variant = 'ghost', external, class: klass } = Astro.props;
 const isExternal = external ?? /^https?:\/\//.test(href);
 ---
+
 <a
   href={href}
   class:list={['btn', 'btn--sm', { 'btn--ghost': variant === 'ghost' }, klass]}
-  {...(isExternal ? { target: '_blank', rel: 'noopener' } : {})}
+  {...isExternal ? { target: '_blank', rel: 'noopener' } : {}}
 >
   <slot />
 </a>

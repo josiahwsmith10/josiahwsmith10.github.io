@@ -1,15 +1,15 @@
 ---
 import SwathField from './SwathField.tsx';
 ---
+
 <section class="hero container">
   <div class="hero__text">
     <p class="eyebrow">Applied AI Scientist · Ph.D., Electrical Engineering</p>
     <h1 class="hero__name">Josiah&nbsp;W.<span>Smith</span></h1>
     <p class="hero__thesis">
-      I build perception models that are natively aware of the <em>physics of
-      their sensors</em> — at the intersection of synthetic aperture radar,
-      complex-valued neural networks, and geospatial foundation models, rather
-      than treating signals as generic pixels.
+      I build perception models that are natively aware of the <em>physics of their sensors</em> — at
+      the intersection of synthetic aperture radar, complex-valued neural networks, and geospatial foundation
+      models, rather than treating signals as generic pixels.
     </p>
     <div class="hero__cta">
       <a class="btn" href="/projects">See the work</a>
@@ -47,7 +47,9 @@ import SwathField from './SwathField.tsx';
     margin-top: var(--sp-4);
     color: var(--ink);
   }
-  .hero__name span { display: block; }
+  .hero__name span {
+    display: block;
+  }
   .hero__thesis {
     font-family: var(--font-serif);
     font-size: var(--fs-md);
@@ -56,7 +58,10 @@ import SwathField from './SwathField.tsx';
     max-width: 30ch;
     margin-top: var(--sp-5);
   }
-  .hero__thesis em { color: var(--forest-deep); font-style: italic; }
+  .hero__thesis em {
+    color: var(--forest-deep);
+    font-style: italic;
+  }
   .hero__cta {
     display: flex;
     flex-wrap: wrap;
@@ -66,14 +71,18 @@ import SwathField from './SwathField.tsx';
   }
 
   /* --- swath panel (the signature) --- */
-  .hero__swath { margin: 0; }
+  .hero__swath {
+    margin: 0;
+  }
   .swath__frame {
     position: relative;
     aspect-ratio: 4 / 3;
     border: 1px solid var(--ink);
     background: var(--paper-2);
     overflow: hidden;
-    box-shadow: 0 1px 0 var(--rule), 0 18px 40px -28px rgba(18, 32, 26, 0.5);
+    box-shadow:
+      0 1px 0 var(--rule),
+      0 18px 40px -28px rgba(18, 32, 26, 0.5);
   }
   .swath__anno {
     position: absolute;
@@ -87,8 +96,16 @@ import SwathField from './SwathField.tsx';
     backdrop-filter: blur(2px);
     white-space: nowrap;
   }
-  .swath__anno--s1 { top: 0.6rem; left: 0.6rem; border-color: var(--s1); }
-  .swath__anno--nisar { bottom: 1.9rem; right: 0.6rem; border-color: var(--nisar); }
+  .swath__anno--s1 {
+    top: 0.6rem;
+    left: 0.6rem;
+    border-color: var(--s1);
+  }
+  .swath__anno--nisar {
+    bottom: 1.9rem;
+    right: 0.6rem;
+    border-color: var(--nisar);
+  }
   .swath__corner {
     position: absolute;
     bottom: 0.6rem;
@@ -115,7 +132,11 @@ import SwathField from './SwathField.tsx';
       grid-template-columns: 1fr;
       gap: var(--sp-6);
     }
-    .hero__swath { order: -1; }
-    .swath__frame { aspect-ratio: 16 / 9; }
+    .hero__swath {
+      order: -1;
+    }
+    .swath__frame {
+      aspect-ratio: 16 / 9;
+    }
   }
 </style>

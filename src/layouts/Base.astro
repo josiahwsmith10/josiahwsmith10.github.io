@@ -27,6 +27,7 @@ const {
 
 const canonical = new URL(Astro.url.pathname, site.url).href;
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -69,8 +70,12 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
         font-family: var(--font-mono);
         font-size: var(--fs-xs);
       }
-      .skip-link:focus { left: 0.5rem; }
-      .site-main { flex: 1 0 auto; }
+      .skip-link:focus {
+        left: 0.5rem;
+      }
+      .site-main {
+        flex: 1 0 auto;
+      }
     </style>
   </body>
 </html>

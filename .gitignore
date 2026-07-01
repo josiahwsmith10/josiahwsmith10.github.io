@@ -9,6 +9,18 @@ node_modules/
 # scratch: extracted paper text for drafting (not part of the site)
 /.paper-text/
 
+# local Python/Quarto virtualenv (legacy tooling, not part of the site)
+/.venv/
+
+# test coverage output
+/coverage/
+
 # Local env
 .env
 .env.production
+
+# local Claude Code settings
+.claude/settings.local.json
+
+# lefthook local overrides
+/lefthook-local.yml
