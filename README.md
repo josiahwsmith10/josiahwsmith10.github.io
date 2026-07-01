@@ -6,7 +6,7 @@ interaction earns it) and published to GitHub Pages automatically on every push 
 
 ## Local development
 
-Requires Node 20+.
+Requires Node 22.12+ (Astro 7).
 
 ```bash
 npm install          # install dependencies
