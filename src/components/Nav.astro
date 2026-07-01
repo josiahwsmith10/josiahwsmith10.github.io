@@ -1,0 +1,121 @@
+---
+import { nav, socials, site } from '@/lib/site';
+import Icon from './Icon.astro';
+
+// Active-link detection (works with and without trailing slash).
+const path = Astro.url.pathname.replace(/\/+$/, '') || '/';
+const isActive = (href: string) => {
+  const h = href.replace(/\/+$/, '') || '/';
+  return h === '/' ? path === '/' : path === h || path.startsWith(h + '/');
+};
+const iconSocials = socials.filter((s) => s.key !== 'email');
+---
+<header class="nav" data-pagefind-ignore>
+  <div class="nav__inner container">
+    <a class="nav__brand" href="/">
+      <span class="nav__mark" aria-hidden="true"></span>
+      <span class="nav__name">{site.shortName}</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Primary">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class:list={['nav__link', { 'is-active': isActive(item.href) }]}
+          aria-current={isActive(item.href) ? 'page' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="nav__socials">
+      <a class="nav__social nav__search" href="/search" aria-label="Search" data-active={isActive('/search') ? 'true' : undefined}>
+        <Icon name="search" />
+      </a>
+      {iconSocials.map((s) => (
+        <a class="nav__social" href={s.href} target="_blank" rel="me noopener" aria-label={s.label}>
+          <Icon name={s.key as any} />
+        </a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(1.4) blur(8px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+    height: 3.75rem;
+  }
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .nav__brand:hover { color: var(--forest-deep); text-decoration: none; }
+  /* A small radar-return mark: a filled square with a coherence ring. */
+  .nav__mark {
+    width: 0.72rem;
+    height: 0.72rem;
+    background: var(--forest);
+    box-shadow: 0 0 0 3px var(--forest-wash), 0 0 0 4px var(--rule);
+  }
+  .nav__links {
+    display: flex;
+    gap: clamp(0.9rem, 0.3rem + 1.6vw, 2rem);
+    margin-inline-start: auto;
+  }
+  .nav__link {
+    color: var(--mist);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    padding-block: 0.2rem;
+    position: relative;
+  }
+  .nav__link:hover { color: var(--ink); text-decoration: none; }
+  .nav__link.is-active { color: var(--ink); }
+  .nav__link.is-active::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: -2px;
+    height: 2px;
+    background: var(--forest);
+  }
+  .nav__socials {
+    display: flex;
+    gap: var(--sp-3);
+    padding-inline-start: clamp(0.5rem, 0.2rem + 1vw, 1.25rem);
+    border-inline-start: 1px solid var(--rule);
+  }
+  .nav__social {
+    color: var(--mist);
+    font-size: 1.12rem;
+    display: inline-grid;
+    place-items: center;
+  }
+  .nav__social:hover { color: var(--forest); }
+  .nav__search[data-active] { color: var(--forest); }
+
+  @media (max-width: 34rem) {
+    .nav__name { display: none; }
+    .nav__inner { gap: var(--sp-4); height: 3.25rem; }
+    /* Keep search reachable on mobile; drop the external social icons. */
+    .nav__socials { border-inline-start: 0; padding-inline-start: 0; }
+    .nav__social:not(.nav__search) { display: none; }
+  }
+</style>

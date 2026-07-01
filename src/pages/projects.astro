@@ -1,0 +1,163 @@
+---
+import Base from '@/layouts/Base.astro';
+import LinkButton from '@/components/LinkButton.astro';
+---
+<Base title="Projects — Josiah Smith" description="Active research and open-source work — SAR foundation models, complex-valued deep learning, and Earth observation for good.">
+  <div class="projects container" data-pagefind-body>
+    <header class="projects__head">
+      <p class="eyebrow">Projects</p>
+      <h1 class="projects__title">Active research &amp; open-source work</h1>
+      <p class="projects__lead">
+        Where the phase-aware, physics-first ideas get built and put to use —
+        from Amazon deforestation monitoring to the complex-valued library
+        underneath most of it.
+      </p>
+    </header>
+
+    <article class="project">
+      <div class="project__bar">
+        <h2 class="project__name">GuacamayaSAR</h2>
+        <span class="project__status">active · research</span>
+      </div>
+      <div class="prose project__body">
+        <p>
+          An open Sentinel-1 SAR companion to Microsoft AI for Good's Project
+          Guacamaya, built to close the <strong>cloud-cover gap</strong> in optical
+          Amazon deforestation monitoring. The Colombian Amazon is cloud-covered
+          for roughly half the year; during those months optical alerts go quiet,
+          and the operational SAR alert (Wageningen RADD) still misses real events.
+        </p>
+        <p>Two complementary branches feed a fused change-detection model:</p>
+        <ul>
+          <li><strong>Amplitude branch</strong> — OlmoEarth (AI2) as a frozen geospatial foundation backbone over Sentinel-1 RTC scenes from the Microsoft Planetary Computer STAC catalog.</li>
+          <li><strong>Coherence branch</strong> — ASF HyP3 burst-InSAR pairs producing interferometric coherence and unwrapped phase, wired into a <code>torch.complex64</code> tensor. This phase-preserving, complex-valued head is the novel contribution: coherence collapses on disturbance independent of brightness.</li>
+        </ul>
+        <p>
+          Headline metric: <strong>recall on a curated set of 66 RADD-missed
+          deforestation events</strong> over Florencia, Caquetá.
+        </p>
+      </div>
+      <div class="project__links">
+        <LinkButton href="https://github.com/josiahwsmith10/GuacamayaSAR">Repository →</LinkButton>
+        <span class="project__note">Blog post forthcoming.</span>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project__bar">
+        <h2 class="project__name">NISAR L-band geo-FM gap</h2>
+        <span class="project__status">write-up in progress</span>
+      </div>
+      <div class="prose project__body">
+        <p>
+          Every public geospatial foundation model was pretrained on <strong>C-band</strong>
+          SAR. NISAR is <strong>L-band</strong> — it penetrates vegetation canopy and has
+          fundamentally different scattering physics. The wedge: frozen C-band-pretrained
+          FMs should <em>not</em> transfer zero-shot to L-band NISAR. This project quantifies
+          the gap by class, then proposes a phase-aware, truly complex-valued adapter on a
+          frozen FM — leaning into L-band's real advantage for biomass under canopy.
+        </p>
+        <p>
+          NISAR began continuous global L-band collection in Aug 2025, with calibrated
+          products arriving mid-2026 — a narrow window in which "first published geo-FM
+          evaluation on NISAR" is still unclaimed.
+        </p>
+      </div>
+      <div class="project__links">
+        <LinkButton href="/blog/nisar-lband-fm-gap" variant="ghost">Read the draft →</LinkButton>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project__bar">
+        <h2 class="project__name">complextorch</h2>
+        <span class="project__status">open-source · live on PyPI</span>
+      </div>
+      <div class="prose project__body">
+        <p>
+          A lightweight <strong>complex-valued neural network</strong> library built on
+          PyTorch — and the open-source foundation under the phase-aware work above.
+          <code>complextorch.nn.*</code> mirrors <code>torch.nn.*</code> name-for-name, so a
+          real-valued model ports to complex-valued by changing the import, running on
+          PyTorch's native <code>cfloat</code> kernels.
+        </p>
+        <p>
+          Beyond drop-in <code>Conv</code> / <code>Linear</code> / attention layers it ships
+          variance-correct complex initializers, RNN/LSTM and Transformer stacks,
+          batch/layer/RMS/group norm, magnitude and spectral pooling, Type-A / Type-B
+          activations, variational-dropout &amp; ARD sparsity, and a set of
+          <strong>U(1)-equivariant / -invariant "co-domain symmetry" modules</strong>
+          (SurReal, CDS) for data whose absolute phase is arbitrary — radar, MRI, comms.
+          Python 3.10–3.12, 100% line coverage enforced in CI.
+        </p>
+      </div>
+      <div class="project__links">
+        <LinkButton href="/blog/complextorch" variant="ghost">Write-up →</LinkButton>
+        <LinkButton href="https://github.com/josiahwsmith10/complextorch">Repository →</LinkButton>
+        <LinkButton href="https://josiahwsmith10.github.io/complextorch/latest/">Docs →</LinkButton>
+        <LinkButton href="https://arxiv.org/abs/2309.07948">Paper →</LinkButton>
+      </div>
+    </article>
+
+    <article class="project">
+      <div class="project__bar">
+        <h2 class="project__name">ideas-geospatial</h2>
+        <span class="project__status">scoping</span>
+      </div>
+      <div class="prose project__body">
+        <p>
+          A working notebook of geospatial research ideas being scoped and pruned, including
+          the NISAR L-band FM gap above, cross-sensor super-resolution, and an open ComSAR
+          agent.
+        </p>
+      </div>
+    </article>
+  </div>
+</Base>
+
+<style>
+  .projects { max-width: 52rem; padding-top: var(--sp-8); }
+  .projects__title { font-size: var(--fs-2xl); margin-top: var(--sp-3); }
+  .projects__lead {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    margin-top: var(--sp-4);
+    max-width: 42rem;
+  }
+
+  .project {
+    margin-top: var(--sp-8);
+    padding-top: var(--sp-5);
+    border-top: 2px solid var(--ink);
+  }
+  .project__bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    flex-wrap: wrap;
+  }
+  .project__name { font-size: var(--fs-xl); }
+  .project__status {
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--forest);
+  }
+  .project__body { margin-top: var(--sp-4); }
+  .project__links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-3);
+    margin-top: var(--sp-5);
+  }
+  .project__note {
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    color: var(--mist);
+  }
+</style>

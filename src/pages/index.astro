@@ -1,0 +1,115 @@
+---
+import Base from '@/layouts/Base.astro';
+import Hero from '@/components/Hero.astro';
+
+const threads = [
+  {
+    n: '01',
+    title: 'Phase-aware SAR learning',
+    body: 'Complex-valued, coherence-preserving models for change detection. SAR carries structure in phase that intensity-only pipelines throw away before the first layer.',
+    tag: 'complex-valued · InSAR',
+  },
+  {
+    n: '02',
+    title: 'Foundation models on new sensors',
+    body: 'Quantifying where C-band-pretrained geospatial foundation models break on L-band NISAR — and, surprisingly, where they do not — then closing the gap.',
+    tag: 'geo-FMs · NISAR',
+  },
+  {
+    n: '03',
+    title: 'Remote sensing for good',
+    body: 'Cloud-blind deforestation monitoring over the Colombian Amazon, where optical alerts go quiet for half the year and radar keeps watching.',
+    tag: 'Earth observation · impact',
+  },
+];
+---
+<Base>
+  <Hero />
+
+  <section class="threads container">
+    <div class="rule-label">
+      <span class="eyebrow">Research threads</span>
+      <span class="eyebrow" style="color:var(--forest)">what I'm chasing</span>
+    </div>
+    <ol class="threads__list">
+      {threads.map((t) => (
+        <li class="thread">
+          <span class="thread__n">{t.n}</span>
+          <div class="thread__body">
+            <h3 class="thread__title">{t.title}</h3>
+            <p class="thread__text">{t.body}</p>
+            <span class="thread__tag">{t.tag}</span>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="now container">
+    <div class="now__grid measure-wide">
+      <p class="eyebrow">Now</p>
+      <p class="now__lead">
+        I'm <strong>Lead AI Scientist at Privateer&nbsp;Space</strong>, building the
+        geospatial ML platform that turns raw satellite data into deployed models.
+        Before that: KBR, Microsoft, Apple, IMEC, and Texas&nbsp;Instruments.
+      </p>
+      <p class="now__text">
+        What I care about most is pointing these methods at geospatial humanitarian
+        and agricultural problems — sustainable, local-scale solutions to global
+        challenges. <a href="/cv">The long version lives in the CV →</a>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .threads { margin-top: var(--sp-9); }
+  .threads__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-6);
+  }
+  .thread {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding-top: var(--sp-4);
+    border-top: 2px solid var(--ink);
+  }
+  .thread__n {
+    font-family: var(--font-mono);
+    font-size: var(--fs-lg);
+    font-weight: 500;
+    color: var(--forest);
+    letter-spacing: 0.02em;
+  }
+  .thread__title { font-size: var(--fs-lg); }
+  .thread__text { color: var(--ink-soft); font-size: var(--fs-sm); }
+  .thread__tag {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.05em;
+    color: var(--mist);
+    text-transform: uppercase;
+    margin-top: auto;
+  }
+
+  .now { margin-top: var(--sp-9); }
+  .measure-wide { max-width: 54rem; }
+  .now__lead {
+    font-family: var(--font-serif);
+    font-size: var(--fs-lg);
+    line-height: 1.4;
+    color: var(--ink);
+    margin-top: var(--sp-3);
+  }
+  .now__text { margin-top: var(--sp-4); color: var(--ink-soft); max-width: 46rem; }
+
+  @media (max-width: 52rem) {
+    .threads__list { grid-template-columns: 1fr; gap: var(--sp-5); }
+    .thread { flex-direction: row; align-items: baseline; gap: var(--sp-4); }
+    .thread__n { min-width: 2.2rem; }
+  }
+</style>

@@ -1,0 +1,286 @@
+---
+import Base from '@/layouts/Base.astro';
+import { getPublications } from '@/lib/publications';
+import { socials } from '@/lib/site';
+
+const pubs = getPublications();
+
+const experience = [
+  {
+    role: 'Lead AI Scientist — Geospatial AI',
+    org: 'Privateer Space',
+    dates: 'Jan 2025 – Present',
+    bullets: [
+      'Architected and shipped a multi-tenant no-code geospatial CV/MLOps platform that takes non-experts from idea to deployed model — automating planetary-scale preprocessing, foundation-model fine-tuning, and one-click cloud/edge deployment.',
+      'Built and owned the model fine-tuning, inference, and deployment orchestration backbone, plus end-to-end production health (logs, metrics, alerts) across ingest, training, and inference services.',
+      'Drove adoption of agentic engineering workflows, shipping production code across multiple codebases.',
+    ],
+  },
+  {
+    role: 'Principal Research Scientist',
+    org: 'KBR',
+    dates: 'Sep 2023 – Jan 2025',
+    bullets: [
+      'Led production SAR pipelines for dark-vessel detection and refocusing of underway ships at high resolution — joint time-frequency deep-learning tooling for ML on SAR SLC and phase-history products at scale, improving dark-vessel detection <strong>2×</strong>.',
+      'Trained custom SAR foundation models and fine-tuned pretrained geospatial foundation models on SAR data for ship feature extraction, moving-object refocusing, and multi-sensor detection.',
+      'Accelerated production model training and inference with a dependency-free C/C++ ML library, a custom SAR ray-tracing engine for synthetic moving-ship data (<strong>400×</strong> speedup), and a SAR image-formation pipeline cutting wall-clock <strong>1000×</strong>.',
+    ],
+  },
+  {
+    role: 'Postdoctoral Research Associate',
+    org: 'The University of Texas at Dallas',
+    dates: 'Jan 2023 – Sep 2023',
+    bullets: [
+      'Researched, published, and patented novel domain-informed machine-learning architectures yielding faster-converging, performant, and generalizable models for RF image and signal processing.',
+      'Authored a novel hybrid deep-learning / signal-processing framework for SAR multiband fusion achieving nearly <strong>3×</strong> super-resolution on a prototype, reducing cost <strong>10–20×</strong>.',
+      'Developed complex-valued neural network (CVNN) solutions for frequency estimation, improving probability of resolution by ~<strong>10%</strong> in degraded and up to <strong>15%</strong> in low-SNR scenarios.',
+      'Published a smartphone-based SAR algorithm for concealed-object detection via a novel imaging approach that reduced computation time <strong>50,000×</strong>, enabling real-time image formation.',
+    ],
+  },
+  {
+    role: 'Wireless Sensing Technologist (Research)',
+    org: 'Microsoft',
+    dates: 'Sep 2022 – Jan 2023',
+    bullets: [
+      'Built and shipped ML infrastructure, influencing cross-functional teams of architects and scientists to advance AI sensing modalities and accelerate delivery timelines for novel wireless-sensing products.',
+      'Pioneered multimodal sensor fusion (RF, mmWave, ToF, LiDAR) for advanced modeling and full-body pose estimation, optimizing algorithms for performance-constrained environments.',
+      'Contributed to the broader AI research community — authoring multiple publications and filing patents on novel sensing and tracking architectures within the first six months.',
+    ],
+  },
+  {
+    role: 'Display Calibration AI/ML Intern',
+    org: 'Apple',
+    dates: '2021',
+    bullets: [
+      'Proposed and patented power-mitigation strategies enhancing display performance (<strong>1.5×</strong> gain) while optimizing power and heat constraints through model-based techniques (shipped in 2025 iPhone).',
+      'Developed holistic display-calibration techniques from register-level interface to model-based gradient descent for <strong>2×</strong> calibration-time reduction on future display technologies.',
+      'Deployed an automated ML solution that reduced production-line display-calibration time <strong>5×</strong>.',
+    ],
+  },
+  {
+    role: 'Computational Imaging & Deep Learning Research Intern',
+    org: 'IMEC',
+    dates: '2020',
+    bullets: [
+      'Created and published a state-of-the-art wireless 3-D hand-tracking input prototype fusing signal processing and deep learning, outperforming prior SOTA localization <strong>7×</strong>.',
+      'Developed the first real-time data-streaming interface for automotive radars via UDP-layer communications in C/C++ with a shared-memory MATLAB interface.',
+    ],
+  },
+  {
+    role: 'mmWave Radar Perception Intern',
+    org: 'Texas Instruments (TxACE)',
+    dates: '2019',
+    bullets: [
+      'Researched mmWave radar perception and RF AI/ML for automotive and gesture-sensing applications.',
+    ],
+  },
+];
+
+const education = [
+  {
+    degree: 'Ph.D., Electrical Engineering',
+    org: 'The University of Texas at Dallas · 2022',
+    note: 'GPA 4.0/4.0. Advisor: Prof. Murat Torlak. Dissertation: <em>Novel Hybrid-Learning Algorithms for Improved Millimeter-Wave Imaging Systems</em>. Five first-author IEEE papers; one granted patent.',
+  },
+  {
+    degree: 'B.S., Electrical Engineering',
+    org: 'The University of Texas at Dallas · 2019',
+    note: 'GPA 3.98/4.0, <em>summa cum laude</em>; completed in three years. 2× UTDesign Senior Capstone 1st place.',
+  },
+];
+
+const awards = [
+  'TI Analog Excellence Graduate Research Fellowship',
+  'Louis Beecherl, Jr. Graduate Research Fellowship',
+  'Microsoft Research Ph.D. Fellowship (UT Dallas nominee)',
+  '1st / 32, TxACE Symposium Student Poster Competition',
+  '2× 1st place, UTDesign Senior Capstone Expo',
+];
+
+const skills = [
+  {
+    label: 'Languages / tooling',
+    body: 'Python, C/C++, MATLAB, PyTorch, TensorFlow, <code>complextorch</code>, geospatial stack (rasterio, geopandas, shapely, xarray, GDAL, STAC), Modal.',
+  },
+  {
+    label: 'MLOps / systems',
+    body: 'Kubernetes, Argo, AWS/EKS, Docker, distributed training, CI/CD, observability and on-call.',
+  },
+  {
+    label: 'Domains',
+    body: 'SAR/InSAR, polarimetry, complex-valued / phase-aware deep learning, foundation-model adaptation, change detection, mmWave radar perception.',
+  },
+];
+
+const patents = [
+  'J. W. Smith and M. Torlak, “Deep Learning-Based Multiband Signal Fusion for 3-D SAR Super-Resolution,” <strong>U.S. Patent 12,474,468 B2</strong>, granted Nov. 2025. Assignee: Board of Regents, The University of Texas System.',
+  'L. Zhu, J. W. Smith, and J. Jadidian, “Selective Sensor Activation Based on Multi-Chip FMCW Radar,” <strong>U.S. Patent Appl. 2025/0328012 A1</strong>, filed Apr. 2024 (pending). Assignee: Microsoft Technology Licensing, LLC.',
+];
+---
+<Base title="CV — Josiah Smith" description="Curriculum vitae — Josiah W. Smith, Ph.D. SAR, complex-valued deep learning, and geospatial foundation models.">
+  <div class="cv container" data-pagefind-body>
+    <header class="cv__head">
+      <p class="eyebrow">Curriculum Vitae</p>
+      <h1 class="cv__name">Josiah W. Smith</h1>
+      <p class="cv__interests">
+        Synthetic aperture radar · complex-valued / phase-aware deep learning ·
+        geospatial foundation models · remote sensing for environmental and
+        humanitarian use.
+      </p>
+      <div class="cv__contact">
+        {socials.map((s) => (
+          <a class="link-arrow" href={s.href} target={s.href.startsWith('mailto') ? undefined : '_blank'} rel="noopener">{s.label} →</a>
+        ))}
+      </div>
+    </header>
+
+    <section class="cv__section">
+      <div class="rule-label"><span class="eyebrow">Experience</span></div>
+      <ol class="cv__list">
+        {experience.map((e) => (
+          <li class="entry">
+            <div class="entry__head">
+              <h3 class="entry__role">{e.role}</h3>
+              <span class="entry__dates">{e.dates}</span>
+            </div>
+            <p class="entry__org">{e.org}</p>
+            <ul class="entry__bullets">
+              {e.bullets.map((b) => <li set:html={b} />)}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="cv__section">
+      <div class="rule-label"><span class="eyebrow">Education</span></div>
+      <ol class="cv__list">
+        {education.map((e) => (
+          <li class="entry">
+            <div class="entry__head">
+              <h3 class="entry__role">{e.degree}</h3>
+            </div>
+            <p class="entry__org">{e.org}</p>
+            <p class="entry__note" set:html={e.note} />
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="cv__section">
+      <div class="rule-label">
+        <span class="eyebrow">Publications</span>
+        <a class="eyebrow cv__scholar" href="https://scholar.google.com/citations?user=tZAFU0cAAAAJ" target="_blank" rel="noopener">Google Scholar →</a>
+      </div>
+      {pubs.map((g) => (
+        <div class="pubs">
+          <h3 class="pubs__label">{g.label}</h3>
+          <div class="pubs__body" set:html={g.html} />
+        </div>
+      ))}
+    </section>
+
+    <section class="cv__section">
+      <div class="rule-label"><span class="eyebrow">Patents</span></div>
+      <ul class="cv__plain">
+        {patents.map((p) => <li set:html={p} />)}
+      </ul>
+    </section>
+
+    <section class="cv__section">
+      <div class="rule-label"><span class="eyebrow">Awards & fellowships</span></div>
+      <ul class="cv__plain">
+        {awards.map((a) => <li>{a}</li>)}
+      </ul>
+    </section>
+
+    <section class="cv__section">
+      <div class="rule-label"><span class="eyebrow">Skills</span></div>
+      <dl class="cv__skills">
+        {skills.map((s) => (
+          <div class="skill">
+            <dt>{s.label}</dt>
+            <dd set:html={s.body} />
+          </div>
+        ))}
+      </dl>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .cv { max-width: 52rem; padding-top: var(--sp-8); }
+  .cv__name { font-size: var(--fs-2xl); margin-top: var(--sp-3); }
+  .cv__interests {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    margin-top: var(--sp-4);
+    max-width: 44rem;
+  }
+  .cv__contact { display: flex; flex-wrap: wrap; gap: var(--sp-4); margin-top: var(--sp-5); }
+
+  .cv__section { margin-top: var(--sp-8); }
+  .cv__scholar { margin-left: auto; color: var(--forest) !important; }
+
+  .cv__list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: var(--sp-6); }
+  .entry__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--sp-4);
+    flex-wrap: wrap;
+  }
+  .entry__role { font-size: var(--fs-lg); }
+  .entry__dates {
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    letter-spacing: 0.04em;
+    color: var(--mist);
+    white-space: nowrap;
+  }
+  .entry__org {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--forest-deep);
+    margin-top: 0.15rem;
+  }
+  .entry__bullets { margin-top: var(--sp-3); padding-left: 1.15em; }
+  .entry__bullets li { margin-top: var(--sp-2); font-size: var(--fs-sm); line-height: 1.55; color: var(--ink-soft); }
+  .entry__note { margin-top: var(--sp-2); font-size: var(--fs-sm); color: var(--ink-soft); }
+  .entry :global(strong) { color: var(--ink); font-weight: 600; }
+
+  .cv__plain { padding-left: 1.15em; display: flex; flex-direction: column; gap: var(--sp-3); }
+  .cv__plain li { font-size: var(--fs-sm); line-height: 1.55; color: var(--ink-soft); }
+
+  .pubs { margin-top: var(--sp-5); }
+  .pubs__label { font-size: var(--fs-md); color: var(--ink); margin-bottom: var(--sp-3); }
+  .pubs__body :global(.csl-entry) {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: var(--sp-3);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+  .pubs__body :global(.csl-left-margin) {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    color: var(--forest);
+    white-space: nowrap;
+  }
+  .pubs__body :global(a) { font-weight: 500; word-break: break-word; }
+
+  .cv__skills { display: flex; flex-direction: column; gap: var(--sp-4); }
+  .skill dt {
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--forest-deep);
+    margin-bottom: 0.25rem;
+  }
+  .skill dd { margin: 0; font-size: var(--fs-sm); color: var(--ink-soft); line-height: 1.55; }
+  .skill :global(code) { color: var(--forest-deep); }
+</style>
