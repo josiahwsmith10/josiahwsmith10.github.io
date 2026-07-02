@@ -1,0 +1,58 @@
+---
+title: "Deep-Learning Multiband Signal Fusion for 3-D SAR Super-Resolution"
+description: "Two cheap 4 GHz radars, one neural net, an effective 21 GHz of bandwidth — kR-Net fuses multiband signals to sharpen 3-D radar images."
+date: "2023-02-01"
+tags: [SAR, mmWave, deep-learning, super-resolution, signal-fusion]
+---
+
+**J. W. Smith and M. Torlak, "Deep Learning-Based Multiband Signal Fusion for 3-D SAR Super-Resolution," *IEEE Trans. Aerosp. Electron. Syst.*, 2023.** (This work is the basis of U.S. Patent 12,474,468 B2.)
+
+## The problem
+
+Synthetic aperture radar (SAR) builds a high-resolution image by moving a radar across a scene and coherently combining the echoes. For near-field 3-D imaging — airport-style concealed-weapon screening, industrial inspection of occluded objects — the depth (downrange) resolution is set almost entirely by one number: the system bandwidth. The relationship is unforgiving, $\delta_z = c / 2B$, so resolving two reflectors a few millimeters apart in depth demands many gigahertz of bandwidth.
+
+Wide-bandwidth radar front-ends, however, are expensive, bulky, and slow — and cheap commercial millimeter-wave (mmWave) chips top out around 4 GHz each, which buys only coarse depth resolution. A tempting alternative is to operate several radars at *different* frequency bands and fuse their signals into one wideband signal. But the bands do not touch — large empty "frequency gaps" sit between them — and those gaps must be filled faithfully.
+
+Classical fusion methods (the matrix Fourier transform, MFT, and the matrix-pencil algorithm, MPA) work only when the scene is a *handful of point reflectors*. Real targets — a knife, a wrench, a packed box — are made of thousands of reflectors. We call these **high-bandwidth targets** (number of reflectors $N_t \gg$ samples per subband $N_k$), and on them the classical methods either smear the image with sidelobes (MFT) or lose the object's fine structure entirely (MPA).
+
+## The idea
+
+We treat multiband fusion as a learning problem and, to our knowledge, present the first use of deep learning for it. The network, **kR-Net**, is a complex-valued convolutional neural network (CV-CNN) that imputes the missing samples in the frequency gaps and outputs the equivalent full-band signal. The key insight is that the same problem looks different — and easier — depending on which domain you view it in, so we work in *both*.
+
+Under the Born approximation, the radar's wavenumber-domain ($k$-domain) signal is a sum of complex exponentials whose frequencies encode reflector ranges. Filling the gap in the $k$-domain is the dual of *spectral super-resolution* in the wavenumber spectral domain (the range, or $R$-domain), where each reflector shows up as a peak. kR-Net alternates between the two, learning relationships a single-domain network would miss.
+
+## How it works
+
+Define two subbands starting at wavenumbers $k_1$ and $k_2$ (with $k = 2\pi f / c$). Each radar samples $N_k$ points; the offset between subbands is $\tilde{N} = \Delta_B / \Delta_k$, giving a full-band length $N = \tilde{N} + N_k - 1$. The $k$-domain signal for $N_t$ point scatterers is
+
+$$s(\ell) = \sum_{i=0}^{N_t - 1} \alpha_i \, e^{-j 2 (k_1 + \Delta_k \ell) R_i},$$
+
+where $\alpha_i$ is reflectivity and $R_i$ is the range to reflector $i$. The multiband measurement is this signal with the gap samples zeroed out; kR-Net's job is to predict them back.
+
+The architecture is *hybrid and dual-domain* — signal-processing structure fused into the network itself. Forward and inverse fast Fourier transforms (FFT/IFFT) are inserted as fully differentiable layers between convolutional blocks, so the network learns features in the $k$-domain (where a convolution acts like a fully connected layer in the $R$-domain, and vice versa). This is what lets it "see" the whole signal: a plain $k$-domain CNN has a slowly growing receptive field, so samples in the middle of the gap stay blind to the subbands until very deep in the network.
+
+Everything is **complex-valued**, because radar signals are. Convolution is decomposed into real and imaginary parts,
+
+$$x \circledast M = x_R \circledast M_R - x_I \circledast M_I + j\,(x_R \circledast M_I + x_I \circledast M_R),$$
+
+and the activation is a complex parametric ReLU (CPReLU) with separately learned slopes for real and imaginary parts. The body is made of complex-valued residual blocks (CV-RBs) — batch-norm removed, ResNet-style — grouped into kR-Blocks. The final network uses kernel size $K = 5$, $F = 32$ feature channels, $B = 8$ CV-RBs per block, 86 convolution layers, and **866,324 learnable parameters**.
+
+Training data is simulated, since no public near-field multiband SAR dataset exists: **1,048,576** samples with $N_t$ drawn uniformly from 1–200 reflectors and SNR uniform over $-10$ to $30$ dB, plus 2,048 validation samples. We use Adam ($\text{lr} = 10^{-4}$), batch size 1024, and an L1 loss summed over real and imaginary parts, on a single RTX 3090. After fusion, a standard Fourier-based range migration algorithm (RMA) reconstructs the 3-D image. The reference scenario fuses a 60 GHz and a 77 GHz radar — each 4 GHz wide ($N_k = 64$, $\tilde{N} = 272$, $N = 336$) — into an effective **60–81 GHz** band.
+
+## Results
+
+On a two-point resolution test at 300 mm range, kR-Net cleanly resolves reflectors spaced $\Delta_z = 7.1$ mm apart — the limit for an **effective bandwidth of 21 GHz** — where each individual 4 GHz subband blurs them into one peak.
+
+Across 50 Monte-Carlo trials with reflector counts swept from 3 up to 1300 (image quality measured by SSIM, PSNR in dB, and NRMSE), kR-Net wins on every metric, with the gap widening as targets get more intricate:
+
+- **Averaged over $N_t$:** kR-Net reaches SSIM 0.9499 / PSNR 46.37 dB / NRMSE 0.6967, versus MPA at 0.9364 / 40.14 dB / 0.9644 and MFT at 0.9338 / 37.44 dB / 1.100.
+- For a hard case ($N_t = 1300$): kR-Net 0.8922 SSIM / 31.14 dB vs. MPA 0.8714 / 29.50 dB.
+- **Across SNR (0–20 dB)** on scenes with 200+ reflectors, kR-Net averages SSIM 0.9807 / PSNR 41.34 dB / NRMSE 0.4651, beating MPA (0.9644 / 38.14 dB / 0.6662) and MFT (0.9487 / 33.17 dB / 1.1265).
+
+The ablation confirms the dual-domain design: a $k$-domain-only variant (k-Net) and an $R$-domain-only variant (R-Net) both converge slower and score lower than kR-Net (e.g. avg PSNR 38.52 dB and 42.51 dB respectively vs. 46.37 dB). Three retrained variants also generalize to other bands — 30–40 GHz, 180–220 GHz, and a three-subband 400–460 GHz THz configuration — winning average PSNR in each.
+
+The practical decider is **speed**. For a high-bandwidth 3-D image, kR-Net runs in **12.5 s** on the same GPU where the parallelized MPA needs **1.6 hours** — and the MFT's faster 5.2 s comes with badly degraded images. For the three-subband THz case the MPA must run twice (2.4 h); kR-Net does it once in 11.4 s. Empirically, on real data from a custom dual-radar prototype (TI IWR6843ISK + IWR1642BOOST, scanning at 500 mm/s), kR-Net resolved three 1.5 cm metallic spheres, recovered a knife's serrated edge and notch, and separated objects at the front (z = 200 mm) and rear (z = 250 mm) of a cardboard box into their correct depth planes — where MFT and MPA showed ghosting and feature loss.
+
+## Why it matters
+
+kR-Net turns two inexpensive commercial radars into something that images like a much costlier wideband system: an effective 21 GHz from two 4 GHz chips, at interactive speed rather than over an hour. By dropping the "few point reflectors" assumption that hobbled prior fusion methods, it handles the cluttered, intricate scenes that real security and industrial imaging actually contain. More broadly, interleaving FFT/IFFT layers to learn jointly in a signal and its spectrum is a reusable hybrid-learning recipe for any problem that is imputation in one domain and super-resolution in its dual — multiband fusion is simply the first example we tried.

@@ -1,0 +1,81 @@
+---
+// Font faces (self-hosted via Fontsource), math CSS, then design system.
+import '@fontsource-variable/newsreader/index.css';
+import '@fontsource-variable/newsreader/standard-italic.css';
+import '@fontsource-variable/ibm-plex-sans/index.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import 'katex/dist/katex.min.css';
+import '@/styles/global.css';
+
+import Nav from '@/components/Nav.astro';
+import Footer from '@/components/Footer.astro';
+import { site } from '@/lib/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogType?: 'website' | 'article';
+  noindex?: boolean;
+}
+const {
+  title = site.title,
+  description = site.description,
+  ogType = 'website',
+  noindex = false,
+} = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, site.url).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={site.shortName} />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title="Josiah Smith — Blog" href="/blog.xml" />
+    <meta name="theme-color" content="#f2f4f0" />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Nav />
+    <main id="main" class="site-main">
+      <slot />
+    </main>
+    <Footer />
+
+    <style>
+      .skip-link {
+        position: absolute;
+        left: -999px;
+        top: 0.5rem;
+        z-index: 100;
+        background: var(--ink);
+        color: var(--paper);
+        padding: 0.5rem 0.85rem;
+        font-family: var(--font-mono);
+        font-size: var(--fs-xs);
+      }
+      .skip-link:focus {
+        left: 0.5rem;
+      }
+      .site-main {
+        flex: 1 0 auto;
+      }
+    </style>
+  </body>
+</html>

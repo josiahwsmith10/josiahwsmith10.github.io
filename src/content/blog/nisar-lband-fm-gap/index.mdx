@@ -1,0 +1,211 @@
+---
+title: "Can you feed NISAR L-band into a Sentinel-1 foundation model? Surprisingly, yes."
+description: >
+  Every public geospatial foundation model was pretrained on C-band SAR. NISAR is L-band,
+  with different scattering physics. The obvious bet is that frozen C-band models won't
+  transfer. Across six backbone configs, two AOIs, and a from-scratch UNet, they do — with
+  no degradation.
+date: "2026-06-21"
+tags: [SAR, foundation-models, NISAR, remote-sensing, biomass]
+draft: true
+---
+
+import Figure from '@/components/Figure.astro';
+import headline from './fig_headline.png';
+import gapModulation from './fig_gap_modulation.png';
+import v11ScaleCurve from './fig_v11_scale_curve.png';
+import agbBins from './fig_agb_bins_cross_fm.png';
+
+> **Status: draft.** Flip `draft: true` to publish when ready.
+
+**The practical takeaway, up front:** if you have NISAR L-band imagery and want to run a
+geospatial foundation model on it for aboveground-biomass (AGB) estimation, you can use the
+existing **Sentinel-1–pretrained** models *off the shelf*. Normalize NISAR into Sentinel-1's
+dynamic range, feed it into the S1 input slot, and a frozen TerraMind / Clay / OlmoEarth
+encoder will match or beat what it does on Sentinel-1 itself. No L-band-specific pretraining,
+no fine-tuning, no new weights. We expected the opposite, and spent a few weeks trying to
+break the result. It held.
+
+## Why this should have failed
+
+Every public geospatial foundation model (geo-FM) — [TerraMind](https://arxiv.org/abs/2504.11171)
+(IBM/ESA), [OlmoEarth](https://allenai.org/blog/olmoearth-models) (Ai2),
+[Clay v1.5](https://clay-foundation.github.io/model/) — was pretrained on **C-band** SAR
+(Sentinel-1, ~5.6 cm wavelength) and/or optical imagery. They ingest Sentinel-1 σ⁰
+*intensity* (VV/VH) and strip phase before the backbone ever sees the signal.
+
+[NISAR](https://nisar.jpl.nasa.gov/) — the NASA–ISRO mission that began continuous global
+collection in August 2025 — is the first global **L-band** SAR (~24 cm). L-band penetrates
+vegetation canopy, saturates at higher biomass, and has fundamentally different volume- and
+double-bounce scattering than C-band. Physically, C-band and L-band are *not* interchangeable.
+
+So the obvious hypothesis is a measurable **C→L semantic gap**: take a frozen C-band-pretrained
+encoder, show it L-band NISAR through the slot it learned for Sentinel-1, and it should
+stumble. Quantifying that gap — and proposing the fix — was the original plan. The result
+turned the plan on its head.
+
+## The test
+
+Two Brazilian Amazon study areas with dense NISAR coverage and good biomass diversity:
+**Pará** (the eastern "arc of deforestation," a mix of low/mid/high AGB) and **Acre**
+(mostly primary forest, a high-AGB tail). NISAR GCOV granules (HH+HV) from
+[ASF DAAC](https://asf.alaska.edu/), November 2025; Sentinel-1 RTC mosaics from the
+[Microsoft Planetary Computer](https://planetarycomputer.microsoft.com/); labels from
+[ESA CCI Biomass v6 (2022)](https://climate.esa.int/en/projects/biomass/).
+
+The probe is deliberately minimal — we want to read the *encoder's* transfer, not a trained
+head's:
+
+> **frozen FM → L2-normalized patch embedding → Ridge regression → AGB (Mg/ha)**,
+> evaluated with 5-fold CV (random **and** spatial-block) and a nested α sweep.
+
+Three input conditions, all fed through the model's Sentinel-1 slot:
+
+1. **S1-baseline** — Sentinel-1 RTC γ⁰, standardized with the model's S1 pretraining stats.
+2. **NISAR-raw** — NISAR linear power, no renormalization (the naïve worst case).
+3. **NISAR-stat-matched** — NISAR HH/HV → dB → standardized with the *same* S1 stats. In
+   other words, *treat NISAR as if it were Sentinel-1.* (HH → VV slot, HV → VH slot.)
+
+The number that matters is the **gap**:
+
+$$\text{gap} = R^2_{\text{S1-baseline}} - R^2_{\text{NISAR-stat}}.$$
+
+A **positive** gap means S1 wins (the C→L hypothesis holds). A **negative** gap means
+NISAR — fed through a C-band model — actually does *better*.
+
+## The headline: no gap, in every cell
+
+Across three architectures spanning 85M–668M parameters and both AOIs, the gap is
+**≤ 0 in 6 of 6 cells**. NISAR-stat-matched matches or beats Sentinel-1 everywhere.
+
+<Figure src={headline} alt="Dumbbell chart, Pará and Acre panels, three foundation models, NISAR red point right of S1 blue point in every row.">
+Frozen C-band geo-FMs transfer to L-band NISAR with no degradation. Each dumbbell connects the frozen-probe R² under Sentinel-1 (blue) and NISAR stat-matched (red); the gap annotation is positive because NISAR wins. The dashed line is a trivial mean-AGB baseline.
+</Figure>
+
+| Foundation model (params, patch) | Pará gap | Acre gap |
+|---|---|---|
+| TerraMind (85M, 224 px) | **−0.014** | **−0.009** |
+| Clay v1.5 Large (311M, 256 px) | **−0.038** | **−0.021** |
+| OlmoEarth Large (668M, 64 px) | **−0.078** | **−0.051** |
+
+*(Spatial-block CV, all eligible patches per model: N ≈ 5.5k for TerraMind, 4k for Clay,
+61k–65k for OlmoEarth.)* The hypothesized C→L gap, on σ⁰ intensity, for AGB regression, in
+Amazon forest, simply **does not exist** — and "NISAR-raw" (no renormalization) is the only
+thing that ever hurts, which is just a units mismatch, not a physics one.
+
+## The recipe, concretely
+
+The entire trick is to put NISAR into the dynamic range the model expects from Sentinel-1.
+NISAR GCOV gives you HH and HV in linear power; convert to dB, then standardize with the
+model's *own* Sentinel-1 pretraining statistics (here, TerraMind's S1RTC stats for VV/VH):
+
+```python
+import numpy as np
+
+# TerraMind's Sentinel-1 RTC pretraining stats (dB), for [VV, VH]:
+S1_MEAN_DB = np.array([-10.93, -17.329])
+S1_STD_DB  = np.array([  4.391,   4.459])
+
+# NISAR HH, HV linear power -> dB, mapped onto the S1 VV, VH slots:
+x = 10.0 * np.log10(nisar_linear)            # (2, H, W): HH->VV slot, HV->VH slot
+x = (x - S1_MEAN_DB[:, None, None]) / S1_STD_DB[:, None, None]
+x = np.nan_to_num(x)
+
+emb = frozen_fm({"S1RTC": x})                # feed through the Sentinel-1 input slot
+```
+
+That's it — no fine-tuning, no adapter, no retraining. Each backbone ships its own S1
+normalization constants; use those. (Skip the dB step and you get "NISAR-raw," the only
+condition that underperforms — a units bug, not a physics one.)
+
+## The robustness battery
+
+A null result is only as good as the attempts to kill it. We threw six independent checks at
+it, and the direction (NISAR-stat ≥ S1) survived every one.
+
+**Model scale.** Running OlmoEarth v1.1 at three sizes (Nano 4.2M → Tiny 27M → Base 257M),
+the gap shrinks *monotonically* with model size — and never crosses zero.
+
+**Patch size.** The cross-model spread in the headline table is mostly an artifact of patch
+footprint, not architecture. Shrink TerraMind from its native 224 px (2240 m) to OlmoEarth's
+64 px (640 m) and its gap jumps from −0.015 to −0.079 — essentially matching OlmoEarth's
+−0.084 at the same footprint. Smaller patches average less ground truth, so the actual
+scattering signal (where L-band's penetration helps) matters more per patch.
+
+<Figure src={gapModulation} alt="Two-panel line chart. Left: gap vs patch footprint for two models converging at 640 m. Right: gap vs model params, shrinking with scale. Both stay below zero.">
+Two axes modulate the C→L gap but never flip its sign. **Left:** smaller patches → larger gap; at a matched 640 m footprint TerraMind and OlmoEarth converge. **Right:** bigger OlmoEarth v1.1 models → smaller gap, monotonic.
+</Figure>
+
+<Figure src={v11ScaleCurve} alt="Line chart of gap vs OlmoEarth v1.1 parameter count for Pará and Acre, both negative and shrinking toward zero with scale.">
+OlmoEarth v1.1 scale curve: the C→L gap shrinks with model size and never inverts, for both AOIs, under spatial-block CV.
+</Figure>
+
+**Normalization.** OlmoEarth uses a hard min-max clip while the others use z-scoring; swap it
+to the "fair" z-score and OlmoEarth's gap *grows* (−0.112 vs −0.084) — so the clip was if
+anything *hiding* part of NISAR's edge, not manufacturing it.
+
+**CV scheme.** Random 5-fold and spatial-block CV agree within ±0.005 R² everywhere, so the
+result isn't an artifact of spatial autocorrelation leaking between folds.
+
+**A task-trained model.** Maybe a patch-pooled linear probe hides a per-pixel L-band
+advantage — or disadvantage? We trained a small from-scratch UNet (per-pixel SAR → AGB,
+5-fold spatial CV). It gives NISAR-stat **0.873 ± 0.022** vs S1 **0.793 ± 0.026** — a gap of
+**−0.080**, with non-overlapping error bars. Task-specific per-pixel training doesn't reveal a
+hidden Sentinel-1 advantage; it shows NISAR's edge *more* strongly. (Both UNet cells sit
+*below* the frozen probe's 0.91–0.92, so the pretrained encoder is also far more
+data-efficient than training from scratch on ~1,800 patches — another point for "just use the
+foundation model.")
+
+**Stale labels.** CCI Biomass is from 2022; NISAR is from late 2025. Patches deforested in
+between carry wrong (too-high) AGB labels. Masking out post-2022 forest loss
+([Hansen Global Forest Change](https://glad.earthengine.app/view/global-forest-change) 2024)
+leaves the gap negative in both AOIs (Pará −0.010, Acre −0.002 on clean patches) — and we
+tested it on the *smallest*-gap cell, so the larger gaps are untouched by this concern.
+
+> Putting it together: the **direction** of the result (NISAR-stat ≥ S1) is invariant across
+> architecture, model scale, patch size, normalization, CV scheme, a from-scratch UNet, and
+> deforestation masking. Its **magnitude** is governed by two controllable, sign-preserving
+> knobs — smaller patches and smaller models widen it — and it never flips.
+
+## Where the small advantage actually comes from
+
+NISAR is not just "not worse" — it's slightly *better*, and the physics says exactly where to
+look. Breaking prediction bias down by true AGB, Sentinel-1 systematically under-predicts the
+**mid-to-high biomass tail** more than NISAR does. In Pará's 200–300 Mg/ha bin, S1 under-
+predicts by 12–33 Mg/ha (depending on model) versus NISAR's 9–19; in the 300+ bin, OlmoEarth's
+S1 bias is −92 Mg/ha against NISAR's −71.
+
+<Figure src={agbBins} alt="Grouped bar charts of mean bias error per AGB bin, six panels, S1 bars more negative than NISAR in the high-AGB bins.">
+Per-AGB-bin prediction bias across all three models. Sentinel-1 (C-band) under-predicts the saturated mid/high-biomass tail more than NISAR (L-band) — consistent with C-band σ⁰ saturation around 100–150 Mg/ha while L-band still carries signal.
+</Figure>
+
+This is the textbook signature of **C-band saturation around 100–150 Mg/ha** while L-band
+still carries information. Acre — almost entirely primary forest above 300 Mg/ha, where *both*
+bands saturate — shows the weakest pattern, exactly as that story predicts.
+
+## What it means
+
+- **For practitioners:** you can run today's Sentinel-1–pretrained geo-FMs on NISAR for AGB
+  *off the shelf*. Stat-match NISAR into S1's range and go. No L-band pretraining required —
+  which matters, because L-band-native foundation models don't exist yet and won't for a while.
+- **For the field:** at the patch-mean level for AGB, the features a geo-FM actually uses are
+  scale/texture-based and largely **band-agnostic** — "dense vegetation vs bare ground," not
+  band-specific scattering physics. That's *why* C→L transfer is so forgiving here.
+- **Honest scope:** this is σ⁰ intensity, AGB regression, Amazon forest, pre-calibration NISAR
+  (all current NISAR data is pre-cal; calibrated global products arrive mid-2026, which is what
+  makes this observation timely). Tasks where **phase and coherence** carry the signal —
+  wetland inundation, double-bounce under canopy — are exactly where we'd expect σ⁰-only
+  transfer to finally break.
+
+## Reproducibility
+
+AOIs, data sources (NISAR GCOV via ASF, Sentinel-1 RTC via Planetary Computer, CCI Biomass,
+Hansen GFC, MapBiomas), and the full ablation code (frozen-probe pipeline + Modal jobs for the
+large runs) are in the project repository. *(Link on publish.)*
+
+## What's next
+
+The null result reframes the interesting question: **where does L-band's phase add value that
+σ⁰ intensity can't?** That points at a phase-aware, complex-valued adapter on NISAR's
+phase-preserving L2 GSLC products — and a hunt for the regime (wetland inundation, or the
+saturated biomass tail) where σ⁰ transfer finally breaks. More on that soon.

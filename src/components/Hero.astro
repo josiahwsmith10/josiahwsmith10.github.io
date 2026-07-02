@@ -1,0 +1,142 @@
+---
+import SwathField from './SwathField.tsx';
+---
+
+<section class="hero container">
+  <div class="hero__text">
+    <p class="eyebrow">Applied AI Scientist · Ph.D., Electrical Engineering</p>
+    <h1 class="hero__name">Josiah&nbsp;W.<span>Smith</span></h1>
+    <p class="hero__thesis">
+      Rather than treating machine learning as a black box — and sensor data as generic pixels — I
+      fuse deep learning with the <em>physics of the sensor</em>: synthetic aperture radar,
+      complex-valued neural networks, and geospatial foundation models.
+    </p>
+    <div class="hero__cta">
+      <a class="btn" href="/projects">See the projects</a>
+      <a class="btn btn--ghost" href="/blog">Read the blog</a>
+      <a class="link-arrow" href="/cv">Full CV →</a>
+    </div>
+  </div>
+
+  <figure class="hero__swath">
+    <div class="swath__frame">
+      <SwathField client:idle />
+      <span class="swath__anno swath__anno--s1">λ 5.6&thinsp;cm · C-BAND</span>
+      <span class="swath__anno swath__anno--nisar">λ 24&thinsp;cm · L-BAND</span>
+      <span class="swath__corner">ACQ&nbsp;/&nbsp;AZ×RG</span>
+    </div>
+    <figcaption class="swath__cap">
+      Fig.&nbsp;00 — synthetic L-band acquisition swath, resolving in azimuth
+    </figcaption>
+  </figure>
+</section>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(1.5rem, 0.5rem + 4vw, 4rem);
+    align-items: center;
+    padding-block: clamp(2.5rem, 1.5rem + 5vw, 5.5rem);
+  }
+  .hero__name {
+    font-size: var(--fs-display);
+    font-weight: 500;
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    margin-top: var(--sp-4);
+    color: var(--ink);
+  }
+  .hero__name span {
+    display: block;
+  }
+  .hero__thesis {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 30ch;
+    margin-top: var(--sp-5);
+  }
+  .hero__thesis em {
+    color: var(--forest-deep);
+    font-style: italic;
+  }
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-4);
+    margin-top: var(--sp-6);
+  }
+
+  /* --- swath panel (the signature) --- */
+  .hero__swath {
+    margin: 0;
+  }
+  .swath__frame {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--ink);
+    background: var(--paper-2);
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 var(--rule),
+      0 18px 40px -28px rgba(18, 32, 26, 0.5);
+  }
+  .swath__anno {
+    position: absolute;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.04em;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--paper) 82%, transparent);
+    padding: 0.2rem 0.45rem;
+    border-left: 3px solid;
+    backdrop-filter: blur(2px);
+    white-space: nowrap;
+  }
+  .swath__anno--s1 {
+    top: 0.6rem;
+    left: 0.6rem;
+    border-color: var(--s1);
+  }
+  .swath__anno--nisar {
+    bottom: 1.9rem;
+    right: 0.6rem;
+    border-color: var(--nisar);
+  }
+  .swath__corner {
+    position: absolute;
+    bottom: 0.6rem;
+    left: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    background: color-mix(in srgb, var(--paper) 82%, transparent);
+    padding: 0.15rem 0.4rem;
+    backdrop-filter: blur(2px);
+  }
+  .swath__cap {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.03em;
+    color: var(--mist);
+    margin-top: var(--sp-3);
+    padding-left: 0.1rem;
+  }
+
+  @media (max-width: 52rem) {
+    .hero {
+      grid-template-columns: 1fr;
+      gap: var(--sp-6);
+    }
+    .hero__swath {
+      order: -1;
+    }
+    .swath__frame {
+      aspect-ratio: 16 / 9;
+    }
+  }
+</style>

@@ -1,0 +1,39 @@
+---
+import Base from '@/layouts/Base.astro';
+---
+
+<Base title="Not found — Josiah Smith" description="Page not found." noindex={true}>
+  <section class="nf container">
+    <p class="eyebrow">Error 404</p>
+    <h1 class="nf__title">Page not found.</h1>
+    <p class="nf__body">This page doesn't exist — it may have moved, or the link is stale.</p>
+    <div class="nf__links">
+      <a class="btn" href="/">Back home</a>
+      <a class="btn btn--ghost" href="/blog">Read the blog</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    max-width: 40rem;
+    padding-block: clamp(3rem, 2rem + 6vw, 7rem);
+  }
+  .nf__title {
+    font-size: var(--fs-display);
+    line-height: 1;
+    margin-top: var(--sp-4);
+  }
+  .nf__body {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    color: var(--ink-soft);
+    margin-top: var(--sp-4);
+  }
+  .nf__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    margin-top: var(--sp-6);
+  }
+</style>

@@ -1,0 +1,12 @@
+{
+  "eslint.useFlatConfig": true,
+  "eslint.options": {
+    "overrideConfigFile": ".config/eslint.config.js"
+  },
+  "eslint.validate": ["javascript", "typescript", "typescriptreact", "astro"],
+  "prettier.configPath": ".config/prettierrc.json",
+  "prettier.prettierPath": "./node_modules/prettier",
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
+}

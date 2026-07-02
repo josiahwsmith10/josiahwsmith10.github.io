@@ -1,0 +1,41 @@
+---
+import { Image } from 'astro:assets';
+
+// Replaces Quarto's `![caption](src){fig-alt="alt"}`: the slot is the (markdown)
+// caption/figcaption; `alt` is the real image alt text.
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+}
+const { src, alt } = Astro.props;
+---
+
+<figure class="fig">
+  <Image src={src} alt={alt} widths={[480, 800, 1200]} sizes="(max-width: 44rem) 100vw, 40rem" />
+  <figcaption class="fig__cap"><slot /></figcaption>
+</figure>
+
+<style>
+  .fig {
+    margin-block: var(--sp-6);
+  }
+  .fig :global(img) {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+  }
+  .fig__cap {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    line-height: 1.55;
+    color: var(--mist);
+    margin-top: var(--sp-3);
+    padding-left: 0.7rem;
+    border-left: 2px solid var(--forest);
+  }
+  .fig__cap :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+</style>

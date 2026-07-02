@@ -1,0 +1,19 @@
+dist
+.astro
+node_modules
+package-lock.json
+pagefind
+
+# local Python/Quarto env + drafting scratch — not part of the site
+.venv
+.paper-text
+
+# static assets served as-is
+public
+
+# citation style + bibliography sources — exact serialization matters
+*.csl
+*.bib
+
+# blog content is prose/MDX, not code — formatting is not enforced here
+src/content

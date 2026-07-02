@@ -1,22 +1,26 @@
-# Quarto build output (rendered by CI)
-/_site/
-/.quarto/
-
-# Python / uv
-.venv/
-__pycache__/
-*.py[cod]
-
-# Jupyter
-.ipynb_checkpoints/
+# Astro / Node build output
+node_modules/
+/dist/
+/.astro/
 
 # OS
 .DS_Store
 
-# NOTE: _freeze/ is intentionally NOT ignored — committed execution caches let CI
-# assemble the site without re-running code or fetching data.
-
-**/*.quarto_ipynb
-
 # scratch: extracted paper text for drafting (not part of the site)
 /.paper-text/
+
+# local Python/Quarto virtualenv (legacy tooling, not part of the site)
+/.venv/
+
+# test coverage output
+/coverage/
+
+# Local env
+.env
+.env.production
+
+# local Claude Code settings
+.claude/settings.local.json
+
+# lefthook local overrides
+/lefthook-local.yml
