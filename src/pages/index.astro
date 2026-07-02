@@ -6,19 +6,19 @@ const threads = [
   {
     n: '01',
     title: 'Phase-aware SAR learning',
-    body: 'Complex-valued, coherence-preserving models for change detection. SAR carries structure in phase that intensity-only pipelines throw away before the first layer.',
+    body: 'Intensity-only pipelines discard SAR’s phase before the first layer. I build complex-valued, coherence-preserving models that keep it — and use it for change detection.',
     tag: 'complex-valued · InSAR',
   },
   {
     n: '02',
     title: 'Foundation models on new sensors',
-    body: 'Quantifying where C-band-pretrained geospatial foundation models break on L-band NISAR — and, surprisingly, where they do not — then closing the gap.',
+    body: 'Every public geospatial foundation model was pretrained on C-band SAR; NISAR is L-band. I’m quantifying where that transfer breaks — and where it surprisingly holds — then closing the gap.',
     tag: 'geo-FMs · NISAR',
   },
   {
     n: '03',
     title: 'Remote sensing for good',
-    body: 'Cloud-blind deforestation monitoring over the Colombian Amazon, where optical alerts go quiet for half the year and radar keeps watching.',
+    body: 'The Colombian Amazon is under cloud half the year, and optical deforestation alerts go quiet. I’m building the SAR companion that catches what the operational alerts miss.',
     tag: 'Earth observation · impact',
   },
 ];
@@ -30,7 +30,7 @@ const threads = [
   <section class="threads container">
     <div class="rule-label">
       <span class="eyebrow">Research threads</span>
-      <span class="eyebrow" style="color:var(--forest)">what I'm chasing</span>
+      <span class="eyebrow" style="color:var(--forest)">current focus</span>
     </div>
     <ol class="threads__list">
       {
@@ -52,14 +52,16 @@ const threads = [
     <div class="now__grid measure-wide">
       <p class="eyebrow">Now</p>
       <p class="now__lead">
-        I'm <strong>AI Computer Vision Scientist at Privateer&nbsp;Space</strong>, building the
-        geospatial ML platform that turns raw satellite data into deployed models. Before that: KBR,
-        Microsoft, Apple, IMEC, and Texas&nbsp;Instruments.
+        I'm an <strong>AI Computer Vision Scientist at Privateer&nbsp;Space</strong>, where I
+        architected the no-code geospatial ML platform that takes non-experts from raw satellite
+        data to deployed models. Before that: KBR, Microsoft, Apple, IMEC, and
+        Texas&nbsp;Instruments.
       </p>
       <p class="now__text">
-        What I care about most is pointing these methods at geospatial humanitarian and agricultural
-        problems — sustainable, local-scale solutions to global challenges. <a href="/cv"
-          >The long version lives in the CV →</a
+        Whereas most of my career has pushed niche sensing modalities forward for commercial and
+        government applications, my deeper passion lies in AI for good — sustainable, local-scale
+        answers to humanitarian, agricultural, and environmental problems. <a href="/cv"
+          >The full record is in the CV →</a
         >
       </p>
     </div>

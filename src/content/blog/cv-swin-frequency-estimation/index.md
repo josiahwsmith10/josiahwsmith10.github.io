@@ -17,7 +17,7 @@ The classical workhorse, the periodogram (a windowed Fourier transform), suffers
 
 We introduce **SwinFreq** and **CVSwinFreq**: 1-D real-valued and complex-valued shifted window (Swin) transformers for line-spectra frequency estimation on 1-D complex-valued signals. While 2-D Swin transformers have become popular for optical image super-resolution, we introduce — for the first time, to our knowledge — a complex-valued Swin module, and the first 1-D Swin transformer suited to vector-valued signal-processing problems.
 
-Why does complex-valued (CV) computation matter? Signals like radar returns carry information jointly in magnitude and phase. cResFreq is only *partially* complex-valued; CVSwinFreq is the first frequency-estimation network to be *fully* complex-valued end to end, so the network never throws away phase relationships before the final reconstruction. This work connects to the broader complex-valued neural network (CVNN) effort behind [complextorch](https://github.com/josiahwsmith10/complextorch), which supplies the CV layers, initialization, and activations used here.
+Complex-valued (CV) computation matters because signals like radar returns carry information jointly in magnitude and phase. Whereas cResFreq is only *partially* complex-valued, CVSwinFreq is the first frequency-estimation network to be *fully* complex-valued end to end, so the network never throws away phase relationships before the final reconstruction. This work connects to the broader complex-valued neural network (CVNN) effort behind [complextorch](https://github.com/josiahwsmith10/complextorch), which supplies the CV layers, initialization, and activations used here.
 
 ## How it works
 

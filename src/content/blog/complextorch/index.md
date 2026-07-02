@@ -18,9 +18,9 @@ network that real and imaginary are unrelated features rather than two coordinat
 rotating quantity.
 
 [**complextorch**](https://github.com/josiahwsmith10/complextorch) is a lightweight
-PyTorch library for building networks that stay complex-valued end to end. The design
-goal is boring in the best way: `complextorch.nn.*` mirrors `torch.nn.*` name-for-name,
-so porting a real-valued model is often a one-line import change.
+PyTorch library I built so networks can stay complex-valued end to end. The design goal
+is deliberately plain: `complextorch.nn.*` mirrors `torch.nn.*` name-for-name, so porting
+a real-valued model is often a one-line import change.
 
 ```python
 import torch
@@ -37,7 +37,7 @@ through any `torch.nn` module.
 
 ## Why complex-valued, and why now
 
-Two things changed that make a library like this worth using rather than rolling your own
+Two developments make a library like this worth using rather than rolling your own
 real/imag split.
 
 First, **the signal is genuinely complex.** Phase-aware tasks — InSAR coherence, biomass
@@ -85,14 +85,15 @@ activations:
   recombine: $G(z) = G_{|\cdot|}(|z|)\,\exp\!\big(j\,G_\angle(\arg z)\big)$. This is
   `modReLU`, `AdaptiveModReLU`, the polar activations.
 
-The distinction is the whole game with complex nonlinearities. `CVSplitReLU` zeroes the
-real and imaginary components independently — it does **not** preserve phase. `modReLU`
-thresholds magnitude as $(|z| - b)^+$ and leaves phase untouched. Which one you want
-depends entirely on whether phase is signal or nuisance for your task.
+The Type-A/Type-B distinction is the central design decision for complex nonlinearities.
+`CVSplitReLU` zeroes the real and imaginary components independently — it does **not**
+preserve phase. `modReLU` thresholds magnitude as $(|z| - b)^+$ and leaves phase
+untouched. Which one you want depends entirely on whether phase is signal or nuisance for
+your task.
 
-## What's in the box
+## What ships in v2.0
 
-By v2.0 the library grew well past drop-in conv/linear into a fairly complete
+By v2.0 the library has grown well past drop-in conv/linear into a fairly complete
 complex-valued toolkit:
 
 - **Core layers** — `Conv{1,2,3}d`, `ConvTranspose{1,2,3}d`, `Linear`, `Bilinear`, and

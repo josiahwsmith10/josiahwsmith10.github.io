@@ -12,8 +12,9 @@ import LinkButton from '@/components/LinkButton.astro';
       <p class="eyebrow">Projects</p>
       <h1 class="projects__title">Active research &amp; open-source work</h1>
       <p class="projects__lead">
-        Where the phase-aware, physics-first ideas get built and put to use — from Amazon
-        deforestation monitoring to the complex-valued library underneath most of it.
+        Where I put the hybrid, physics-informed ideas to work — cloud-blind deforestation
+        monitoring over the Amazon, a first geo-FM evaluation on NISAR, and the complex-valued
+        library underneath both.
       </p>
     </header>
 
@@ -24,10 +25,10 @@ import LinkButton from '@/components/LinkButton.astro';
       </div>
       <div class="prose project__body">
         <p>
-          An open Sentinel-1 SAR companion to Microsoft AI for Good's Project Guacamaya, built to
-          close the <strong>cloud-cover gap</strong> in optical Amazon deforestation monitoring. The Colombian
-          Amazon is cloud-covered for roughly half the year; during those months optical alerts go quiet,
-          and the operational SAR alert (Wageningen RADD) still misses real events.
+          I'm building an open Sentinel-1 SAR companion to Microsoft AI for Good's Project Guacamaya
+          to close the <strong>cloud-cover gap</strong> in optical Amazon deforestation monitoring. The
+          Colombian Amazon is cloud-covered for roughly half the year; during those months optical alerts
+          go quiet, and the operational SAR alert (Wageningen RADD) still misses real events.
         </p>
         <p>Two complementary branches feed a fused change-detection model:</p>
         <ul>
@@ -63,8 +64,10 @@ import LinkButton from '@/components/LinkButton.astro';
         <p>
           Every public geospatial foundation model was pretrained on <strong>C-band</strong>
           SAR. NISAR is <strong>L-band</strong> — it penetrates vegetation canopy and has fundamentally
-          different scattering physics. The wedge: frozen C-band-pretrained FMs should <em>not</em> transfer
-          zero-shot to L-band NISAR. This project quantifies the gap by class, then proposes a phase-aware,
+          different scattering physics. The hypothesis: frozen C-band-pretrained FMs should <em
+            >not</em
+          >
+          transfer zero-shot to L-band NISAR. I quantify the gap by class, then propose a phase-aware,
           truly complex-valued adapter on a frozen FM — leaning into L-band's real advantage for biomass
           under canopy.
         </p>
@@ -86,8 +89,8 @@ import LinkButton from '@/components/LinkButton.astro';
       </div>
       <div class="prose project__body">
         <p>
-          A lightweight <strong>complex-valued neural network</strong> library built on PyTorch — and
-          the open-source foundation under the phase-aware work above.
+          I built a lightweight <strong>complex-valued neural network</strong> library on PyTorch — the
+          open-source foundation under the phase-aware work above.
           <code>complextorch.nn.*</code> mirrors <code>torch.nn.*</code> name-for-name, so a real-valued
           model ports to complex-valued by changing the import, running on PyTorch's native <code
             >cfloat</code

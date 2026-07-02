@@ -5,7 +5,7 @@ export const site = {
   role: 'Applied AI Scientist, Ph.D.',
   title: 'Josiah W. Smith — Applied AI Scientist',
   description:
-    'SAR & geospatial machine-learning research, notes, and projects — perception models that are natively aware of the physics of their sensors.',
+    'Research notes and projects from Josiah W. Smith, Ph.D. — fusing deep learning with sensor physics across SAR, complex-valued neural networks, and geospatial foundation models.',
   url: 'https://josiahwsmith10.github.io',
   email: 'josiahsmithphd@gmail.com',
 } as const;

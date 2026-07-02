@@ -13,13 +13,13 @@ draft: true
 ## The problem
 
 Project Guacamaya (Microsoft AI for Good) runs operationally with Colombia's IDEAM using
-Planet Labs and Sentinel-2 **optical** imagery. But the Colombian Amazon is cloud-covered
-for roughly half the year — and during those months, optical alerts go quiet. The
-operational SAR alert (Wageningen RADD) exists, but it misses real events.
+Planet Labs and Sentinel-2 **optical** imagery. The Colombian Amazon, however, is
+cloud-covered for roughly half the year — and during those months, optical alerts go
+quiet. An operational SAR alert (Wageningen RADD) exists, but it misses real events.
 
-The headline question: **does a SAR companion catch them?** We curated **66 RADD-missed
-deforestation events** over the last 12 months around Florencia, Caquetá, and measure
-recall against that set.
+The question this project answers: **does a SAR companion catch them?** We curated **66
+RADD-missed deforestation events** over the last 12 months around Florencia, Caquetá, and
+measure recall against that set.
 
 ## The system
 
@@ -38,10 +38,11 @@ head that complements the cloud-blind amplitude branch with a structurally diffe
 
 ## Why coherence helps
 
-Optical and amplitude-only SAR both key off *reflectance/brightness*. Interferometric
-coherence keys off *whether the scene's scattering geometry stayed stable* between passes.
-Forest disturbance destroys that stability even when brightness barely moves — so the two
-branches fail on different events, which is exactly what you want in a fused detector.
+Whereas optical and amplitude-only SAR both key off *reflectance/brightness*,
+interferometric coherence keys off *whether the scene's scattering geometry stayed
+stable* between passes. Forest disturbance destroys that stability even when brightness
+barely moves — so the two branches fail on different events, which is exactly the
+complementarity a fused detector needs.
 
 ## Results
 
