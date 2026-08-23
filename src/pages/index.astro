@@ -4,21 +4,18 @@ import Hero from '@/components/Hero.astro';
 
 const threads = [
   {
-    n: '01',
     title: 'Phase-aware SAR learning',
-    body: 'Intensity-only pipelines discard SAR’s phase before the first layer. I build complex-valued, coherence-preserving models that keep it — and use it for change detection.',
+    body: 'Most SAR pipelines discard phase before the first layer and train on intensity alone. I build complex-valued, coherence-preserving models that keep the phase and use it for change detection.',
     tag: 'complex-valued · InSAR',
   },
   {
-    n: '02',
     title: 'Foundation models on new sensors',
-    body: 'Every public geospatial foundation model was pretrained on C-band SAR; NISAR is L-band. I’m quantifying where that transfer breaks — and where it surprisingly holds — then closing the gap.',
+    body: 'Every public geospatial foundation model was pretrained on C-band SAR, and NISAR is L-band. I’m measuring where that transfer breaks and where it holds, then closing the gap.',
     tag: 'geo-FMs · NISAR',
   },
   {
-    n: '03',
     title: 'Remote sensing for good',
-    body: 'The Colombian Amazon is under cloud half the year, and optical deforestation alerts go quiet. I’m building the SAR companion that catches what the operational alerts miss.',
+    body: 'The Colombian Amazon is under cloud half the year, and optical deforestation alerts go quiet during those months. I’m building a SAR companion system to catch what the operational alerts miss.',
     tag: 'Earth observation · impact',
   },
 ];
@@ -36,11 +33,10 @@ const threads = [
       {
         threads.map((t) => (
           <li class="thread">
-            <span class="thread__n">{t.n}</span>
+            <span class="thread__tag">{t.tag}</span>
             <div class="thread__body">
               <h3 class="thread__title">{t.title}</h3>
               <p class="thread__text">{t.body}</p>
-              <span class="thread__tag">{t.tag}</span>
             </div>
           </li>
         ))
@@ -53,14 +49,14 @@ const threads = [
       <p class="eyebrow">Now</p>
       <p class="now__lead">
         I'm an <strong>AI Computer Vision Scientist at Privateer&nbsp;Space</strong>, where I
-        architected the no-code geospatial ML platform that takes non-experts from raw satellite
-        data to deployed models. Before that: KBR, Microsoft, Apple, IMEC, and
+        architected a no-code geospatial ML platform that takes non-experts from raw satellite data
+        to deployed models. Before Privateer I worked at KBR, Microsoft, Apple, IMEC, and
         Texas&nbsp;Instruments.
       </p>
       <p class="now__text">
-        Whereas most of my career has pushed niche sensing modalities forward for commercial and
-        government applications, my deeper passion lies in AI for good — sustainable, local-scale
-        answers to humanitarian, agricultural, and environmental problems. <a href="/cv"
+        Most of my career has focused on commercial and government applications of niche sensing
+        modalities. The work I care most about is AI for good: sustainable, local-scale solutions to
+        humanitarian, agricultural, and environmental problems. <a href="/cv"
           >The full record is in the CV →</a
         >
       </p>
@@ -75,30 +71,20 @@ const threads = [
   .threads__list {
     list-style: none;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--sp-6);
   }
+  /* Index-term rows: the domain tag sits in a left margin column, like the
+     index terms of a paper — classification, not sequence. */
   .thread {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-3);
-    padding-top: var(--sp-4);
-    border-top: 2px solid var(--ink);
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    column-gap: var(--sp-6);
+    padding-block: var(--sp-5);
   }
-  .thread__n {
-    font-family: var(--font-mono);
-    font-size: var(--fs-lg);
-    font-weight: 500;
-    color: var(--forest);
-    letter-spacing: 0.02em;
+  .thread:first-child {
+    padding-top: 0;
   }
-  .thread__title {
-    font-size: var(--fs-lg);
-  }
-  .thread__text {
-    color: var(--ink-soft);
-    font-size: var(--fs-sm);
+  .thread + .thread {
+    border-top: 1px solid var(--rule);
   }
   .thread__tag {
     font-family: var(--font-mono);
@@ -106,7 +92,15 @@ const threads = [
     letter-spacing: 0.05em;
     color: var(--mist);
     text-transform: uppercase;
-    margin-top: auto;
+    padding-top: 0.55em; /* optically align with the serif title's cap height */
+  }
+  .thread__title {
+    font-size: var(--fs-lg);
+  }
+  .thread__text {
+    margin-top: var(--sp-2);
+    color: var(--ink-soft);
+    max-width: var(--prose-max);
   }
 
   .now {
@@ -129,17 +123,13 @@ const threads = [
   }
 
   @media (max-width: 52rem) {
-    .threads__list {
-      grid-template-columns: 1fr;
-      gap: var(--sp-5);
-    }
     .thread {
-      flex-direction: row;
-      align-items: baseline;
-      gap: var(--sp-4);
+      grid-template-columns: 1fr;
+      row-gap: var(--sp-2);
+      padding-block: var(--sp-4);
     }
-    .thread__n {
-      min-width: 2.2rem;
+    .thread__tag {
+      padding-top: 0;
     }
   }
 </style>

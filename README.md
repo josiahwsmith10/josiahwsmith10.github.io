@@ -1,8 +1,8 @@
 # josiahwsmith10.github.io
 
-Source for my personal website + blog — [josiahwsmith10.github.io](https://josiahwsmith10.github.io).
-Built with [Astro](https://astro.build) (static output, React islands where an
-interaction earns it) and published to GitHub Pages automatically on every push to `main`.
+Source for my personal website and blog: [josiahwsmith10.github.io](https://josiahwsmith10.github.io).
+Built with [Astro](https://astro.build) (static output, with React islands where
+interaction is needed) and published to GitHub Pages automatically on every push to `main`.
 
 ## Local development
 
@@ -30,26 +30,26 @@ npm run format:check # prettier --check (CI/pre-push gate)
 npm test             # vitest run (unit tests for src/lib helpers)
 ```
 
-- **`.config/lefthook.yml`** — a `pre-push` hook runs typecheck + lint + format:check + test
+- **`.config/lefthook.yml`**: a `pre-push` hook runs typecheck + lint + format:check + test
   in parallel, so failures are caught before they reach GitHub. Installed automatically by
   the `prepare` script on `npm install`; re-sync manually with `npx lefthook install`.
-- **`.config/eslint.config.js`** — ESLint flat config (`js` + `typescript-eslint` +
+- **`.config/eslint.config.js`**: ESLint flat config (`js` + `typescript-eslint` +
   `eslint-plugin-astro`, with `eslint-config-prettier` last). Type-aware linting is off;
   `astro check` provides the type checking.
-- **`.config/prettierrc.json`** + [`.prettierignore`](.prettierignore) — Prettier with
+- **`.config/prettierrc.json`** + [`.prettierignore`](.prettierignore): Prettier with
   `prettier-plugin-astro`. Blog content under `src/content/` is intentionally left alone.
-- **`.config/vitest.config.ts`** — Vitest; tests live next to the code (`src/**/*.test.ts`).
+- **`.config/vitest.config.ts`**: Vitest; tests live next to the code (`src/**/*.test.ts`).
 - **`.vscode/settings.json`** points the editor's ESLint/Prettier extensions at these configs.
 
 ## How publishing works
 
 `.github/workflows/publish.yml` runs on every push/PR to `main`:
 
-1. **`checks`** — `npm ci`, then `npm run typecheck`, `lint`, `format:check`, and `test`.
+1. **`checks`**: `npm ci`, then `npm run typecheck`, `lint`, `format:check`, and `test`.
    This mirrors the local lefthook pre-push hook and gates everything below.
-2. **`build`** (needs `checks`) — `npm run build` runs `astro build` into `dist/`, then
+2. **`build`** (needs `checks`): `npm run build` runs `astro build` into `dist/`, then
    `pagefind --site dist` writes the full-text search index into `dist/pagefind/`.
-3. **`deploy`** (needs `build`) — the `dist/` artifact is deployed to GitHub Pages (only on
+3. **`deploy`** (needs `build`): the `dist/` artifact is deployed to GitHub Pages (only on
    `main`; PRs run `checks` + `build` as status checks and stop there).
 
 Pages source must be set to **GitHub Actions** (Settings → Pages).
@@ -95,5 +95,5 @@ Put figures and data alongside the post inside its folder. Posts can carry LaTeX
 ## Publications
 
 The CV's publication lists are generated at build time from the four `references-*.bib`
-files using `ieee.csl` (see `src/lib/publications.ts`) — edit the `.bib` files, not the
+files using `ieee.csl` (see `src/lib/publications.ts`). Edit the `.bib` files, not the
 rendered lists. Each file becomes its own independently numbered IEEE list.

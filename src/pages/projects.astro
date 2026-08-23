@@ -5,16 +5,16 @@ import LinkButton from '@/components/LinkButton.astro';
 
 <Base
   title="Projects — Josiah Smith"
-  description="Active research and open-source work — SAR foundation models, complex-valued deep learning, and Earth observation for good."
+  description="Active research and open-source work: SAR foundation models, complex-valued deep learning, and Earth observation for good."
 >
   <div class="projects container" data-pagefind-body>
     <header class="projects__head">
       <p class="eyebrow">Projects</p>
       <h1 class="projects__title">Active research &amp; open-source work</h1>
       <p class="projects__lead">
-        Where I put the hybrid, physics-informed ideas to work — cloud-blind deforestation
-        monitoring over the Amazon, a first geo-FM evaluation on NISAR, and the complex-valued
-        library underneath both.
+        Three current efforts: deforestation monitoring over the Amazon that works through cloud
+        cover, a first geo-FM evaluation on NISAR, and the complex-valued library that supports
+        both.
       </p>
     </header>
 
@@ -33,14 +33,14 @@ import LinkButton from '@/components/LinkButton.astro';
         <p>Two complementary branches feed a fused change-detection model:</p>
         <ul>
           <li>
-            <strong>Amplitude branch</strong> — OlmoEarth (AI2) as a frozen geospatial foundation backbone
-            over Sentinel-1 RTC scenes from the Microsoft Planetary Computer STAC catalog.
+            <strong>Amplitude branch</strong>: OlmoEarth (AI2) as a frozen geospatial foundation
+            backbone over Sentinel-1 RTC scenes from the Microsoft Planetary Computer STAC catalog.
           </li>
           <li>
-            <strong>Coherence branch</strong> — ASF HyP3 burst-InSAR pairs producing interferometric coherence
-            and unwrapped phase, wired into a <code>torch.complex64</code> tensor. This phase-preserving,
-            complex-valued head is the novel contribution: coherence collapses on disturbance independent
-            of brightness.
+            <strong>Coherence branch</strong>: ASF HyP3 burst-InSAR pairs producing interferometric
+            coherence and unwrapped phase, wired into a <code>torch.complex64</code> tensor. This phase-preserving,
+            complex-valued head is the new contribution: coherence collapses when the forest is disturbed,
+            regardless of brightness.
           </li>
         </ul>
         <p>
@@ -63,18 +63,15 @@ import LinkButton from '@/components/LinkButton.astro';
       <div class="prose project__body">
         <p>
           Every public geospatial foundation model was pretrained on <strong>C-band</strong>
-          SAR. NISAR is <strong>L-band</strong> — it penetrates vegetation canopy and has fundamentally
-          different scattering physics. The hypothesis: frozen C-band-pretrained FMs should <em
-            >not</em
-          >
+          SAR. NISAR is <strong>L-band</strong>, which penetrates vegetation canopy and has
+          different scattering physics. The hypothesis was that frozen C-band-pretrained FMs should
+          <em>not</em>
           transfer zero-shot to L-band NISAR. I quantify the gap by class, then propose a phase-aware,
-          truly complex-valued adapter on a frozen FM — leaning into L-band's real advantage for biomass
-          under canopy.
+          complex-valued adapter on a frozen FM that uses L-band's advantage for biomass under canopy.
         </p>
         <p>
-          NISAR began continuous global L-band collection in Aug 2025, with calibrated products
-          arriving mid-2026 — a narrow window in which "first published geo-FM evaluation on NISAR"
-          is still unclaimed.
+          NISAR began continuous global L-band collection in Aug 2025, and calibrated products
+          arrive mid-2026. As of this writing, no one has published a geo-FM evaluation on NISAR.
         </p>
       </div>
       <div class="project__links">
@@ -89,8 +86,8 @@ import LinkButton from '@/components/LinkButton.astro';
       </div>
       <div class="prose project__body">
         <p>
-          I built a lightweight <strong>complex-valued neural network</strong> library on PyTorch — the
-          open-source foundation under the phase-aware work above.
+          I built a lightweight <strong>complex-valued neural network</strong> library on PyTorch. It
+          is the open-source foundation for the phase-aware work above.
           <code>complextorch.nn.*</code> mirrors <code>torch.nn.*</code> name-for-name, so a real-valued
           model ports to complex-valued by changing the import, running on PyTorch's native <code
             >cfloat</code
@@ -102,8 +99,8 @@ import LinkButton from '@/components/LinkButton.astro';
           and spectral pooling, Type-A / Type-B activations, variational-dropout &amp; ARD sparsity, and
           a set of
           <strong>U(1)-equivariant / -invariant "co-domain symmetry" modules</strong>
-          (SurReal, CDS) for data whose absolute phase is arbitrary — radar, MRI, comms. Python 3.10–3.12,
-          100% line coverage enforced in CI.
+          (SurReal, CDS) for data whose absolute phase is arbitrary (radar, MRI, communications). Python
+          3.10–3.12, 100% line coverage enforced in CI.
         </p>
       </div>
       <div class="project__links">

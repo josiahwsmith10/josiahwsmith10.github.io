@@ -3,7 +3,7 @@
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Personal site + blog — SAR & geospatial machine-learning research.",
+  "description": "Personal site and blog covering SAR and geospatial machine-learning research.",
   "engines": {
     "node": ">=22.12"
   },

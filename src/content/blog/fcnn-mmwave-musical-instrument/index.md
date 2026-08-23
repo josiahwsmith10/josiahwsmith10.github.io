@@ -9,41 +9,41 @@ tags: [mmWave, radar, deep-learning, HCI]
 
 ## The problem
 
-A century ago, Leon Theremin built an instrument you play without touching it: move your hand near an antenna, and the pitch changes. We set out to build a modern contactless instrument in the same spirit — using a millimeter-wave (mmWave) radar in place of a capacitive antenna or an optical camera.
+A century ago, Leon Theremin built an instrument you play without touching it: move your hand near an antenna, and the pitch changes. We set out to build a modern contactless instrument in the same spirit, using a millimeter-wave (mmWave) radar in place of a capacitive antenna or an optical camera.
 
-Radar is the right sensor for the job in every respect but one. Unlike a camera, it works in any lighting, sees through fog and occlusion, and is far less invasive of privacy. The obstacle is resolution. We use a commercial 8-channel automotive radar (a Texas Instruments AWR1243, 79 GHz center frequency, 4 GHz bandwidth) with a small antenna aperture, and the physics of that small aperture bound its spatial resolution to roughly $\delta_y = 7.5$ cm in cross-range and $\delta_z = 3.75$ cm in range. For tracking a hand precisely enough to "play" notes, that is nowhere near sufficient — naively reading the peak out of each radar image produces jittery, sporadic position estimates.
+Radar is the right sensor for the job in every respect but one. Unlike a camera, it works in any lighting, sees through fog and occlusion, and is far less invasive of privacy. The obstacle is resolution. We use a commercial 8-channel automotive radar (a Texas Instruments AWR1243, 79 GHz center frequency, 4 GHz bandwidth) with a small antenna aperture, and the physics of that small aperture bound its spatial resolution to roughly $\delta_y = 7.5$ cm in cross-range and $\delta_z = 3.75$ cm in range. For tracking a hand precisely enough to "play" notes, that is not sufficient. Reading the peak out of each radar image directly produces jittery, sporadic position estimates.
 
 ## The idea
 
-Whereas most deep-learning work on mmWave radar *classifies* gestures — mapping each sample to one of a fixed set of poses — classification is dimensionality reduction, and it discards precisely what an instrument needs: continuous position.
+Most deep-learning work on mmWave radar *classifies* gestures, mapping each sample to one of a fixed set of poses. Classification discards what an instrument needs: continuous position.
 
-We instead treat radar processing as a *regression* problem. We train a fully convolutional neural network (FCNN — a CNN with no dense layers, so it maps an image to an image of the same size) to take a blurry, noisy radar image and produce a clean, sharp one. Because the network preserves image geometry, it can perform spatial **super-resolution**: it sharpens the hand's reflection beyond the device's theoretical resolution limit while also suppressing clutter, device noise, and beam-pattern artifacts that the analytic model cannot easily remove.
+We instead treat radar processing as a *regression* problem. We train a fully convolutional neural network (FCNN, a CNN with no dense layers, so it maps an image to an image of the same size) to take a blurry, noisy radar image and produce a clean, sharp one. Because the network preserves image geometry, it can perform spatial **super-resolution**: it sharpens the hand's reflection beyond the device's theoretical resolution limit while also suppressing clutter, device noise, and beam-pattern artifacts that the analytic model cannot easily remove.
 
 ## How it works
 
 The signal chain starts with a frequency-modulated continuous-wave (FMCW) radar, which transmits a chirp whose frequency ramps linearly with time. A target's range and velocity show up as frequencies in the returned beat signal. We use time-division-multiplexed MIMO (multiple-input multiple-output) to form an 8-element virtual array, then reconstruct a 2-D image of the scene reflectivity $p(y,z)$ with the range migration algorithm (RMA), which properly handles the near-field spherical-wave geometry that simpler range-angle FFT methods get wrong.
 
-The RMA image feeds the enhancement FCNN: four convolutional layers of decreasing kernel size, each followed by a ReLU, zero-padded so output size equals input size. The decisive detail is the labels. Each ground-truth image is a clean Gaussian blob, $I(y,z) = e^{-(y-y_0)^2/\sigma_y^2 - (z-z_0)^2/\sigma_z^2}$, centered on the known hand location. The inputs are a mix of **real** hand captures (512 frames at each of 45 known positions, 23,040 images) and **65,536 simulated** point targets — crucially corrupted with *real* radar noise sampled from the device, so the network learns the actual beam pattern, multistatic effects, and ambient noise rather than an idealized model.
+The RMA image feeds the enhancement FCNN: four convolutional layers of decreasing kernel size, each followed by a ReLU, zero-padded so output size equals input size. The important detail is the labels. Each ground-truth image is a clean Gaussian blob, $I(y,z) = e^{-(y-y_0)^2/\sigma_y^2 - (z-z_0)^2/\sigma_z^2}$, centered on the known hand location. The inputs are a mix of **real** hand captures (512 frames at each of 45 known positions, 23,040 images) and **65,536 simulated** point targets. The simulated targets are corrupted with *real* radar noise sampled from the device, so the network learns the actual beam pattern, multistatic effects, and ambient noise rather than an idealized model.
 
-Downstream of the enhanced image, we estimate velocity via a Doppler FFT across chirps, then track everything with a modified particle filter. Our **Doppler-corroborated** variant compares the velocity implied by recent position estimates against the directly measured Doppler velocity; when they disagree, that measurement is down-weighted as an outlier, stabilizing the range track. Finally, we map three extracted features — range (note selection), cross-range oscillation (vibrato), and velocity — to audio or MIDI output, with the whole MATLAB pipeline running around 250 Hz.
+Downstream of the enhanced image, we estimate velocity via a Doppler FFT across chirps, then track everything with a modified particle filter. Our **Doppler-corroborated** variant compares the velocity implied by recent position estimates against the directly measured Doppler velocity; when they disagree, that measurement is down-weighted as an outlier, stabilizing the range track. Finally, we map three extracted features to audio or MIDI output: range (note selection), cross-range oscillation (vibrato), and velocity. The whole MATLAB pipeline runs around 250 Hz.
 
 ## Results
 
-The resolution numbers exceed the physics. The device's theoretical bounds are $\delta_y = 7.5$ cm and $\delta_z = 3.75$ cm; with the FCNN, we measured empirical resolutions of **2.3 mm cross-range and 1.96 mm range** — well past the physical limit.
+The measured resolution exceeds the theoretical limits. The device's bounds are $\delta_y = 7.5$ cm and $\delta_z = 3.75$ cm; with the FCNN, we measured empirical resolutions of **2.3 mm cross-range and 1.96 mm range**, well past the physical limit.
 
 On localization root-mean-square error (RMSE) over the validation set, the FCNN cut cross-range error from 0.0154 m to 0.0085 m and range error from 0.023 m to 0.0083 m versus reading the raw RMA peak.
 
-Comparing tracking methods on 4,096 motion profiles, the full FCNN + Doppler-corroborated particle filter (FCNN-DPF) dominated the simple baseline:
+Comparing tracking methods on 4,096 motion profiles, the full FCNN + Doppler-corroborated particle filter (FCNN-DPF) outperformed the simple baseline:
 
 | Method | $y$ (mm) | $z$ (mm) | $v$ (mm/s) | latency (ms) |
 |---|---|---|---|---|
 | Simple | 7.86 | 22.0 | 72.4 | 2.29 |
 | FCNN-DPF | 3.70 | 3.07 | 44.5 | 3.96 |
 
-Against prior radar hand-tracking, our mean range error of **1.89 mm** improves on the best prior result (about 2 cm) by more than a factor of ten, and our 2-D position RMSE of 3.4 mm is competitive even with thumb-tracking work restricted to under 10 cm range. End-to-end latency from hand motion to MIDI was 3.96 ms — a small price for the accuracy gain.
+Against prior radar hand-tracking, our mean range error of **1.89 mm** improves on the best prior result (about 2 cm) by more than a factor of ten, and our 2-D position RMSE of 3.4 mm is competitive even with thumb-tracking work restricted to under 10 cm range. End-to-end latency from hand motion to MIDI was 3.96 ms, a small cost for the accuracy gain.
 
 ## Why it matters
 
-The reusable idea is not the instrument — it is reframing radar processing as image-to-image regression and training on real device noise so the network *absorbs* the hardware's non-idealities. That combination lets a cheap, small-aperture sensor beat its own physical resolution limit by an order of magnitude.
+The reusable idea is reframing radar processing as image-to-image regression and training on real device noise so the network absorbs the hardware's non-idealities. That combination lets a cheap, small-aperture sensor beat its own physical resolution limit by an order of magnitude.
 
-The recipe generalizes well beyond music. Any near-field hand-tracking task — touchless interfaces, automotive cabin sensing, sensor-fusion front-ends where radar contributes the depth that cameras lack — can borrow the same super-resolution-plus-tracking pipeline. mmWave supplies robustness to lighting, occlusion, and privacy concerns; the FCNN supplies the precision that small radars otherwise cannot reach.
+The recipe generalizes beyond music. Any near-field hand-tracking task (touchless interfaces, automotive cabin sensing, sensor-fusion front-ends where radar contributes the depth that cameras lack) can use the same super-resolution-plus-tracking pipeline. mmWave handles lighting, occlusion, and privacy concerns; the FCNN supplies the precision that small radars otherwise cannot reach.
