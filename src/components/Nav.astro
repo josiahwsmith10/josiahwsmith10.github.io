@@ -14,7 +14,10 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
 <header class="nav" data-pagefind-ignore>
   <div class="nav__inner container">
     <a class="nav__brand" href="/">
-      <span class="nav__mark" aria-hidden="true"></span>
+      <svg class="nav__mark" viewBox="0 0 12 12" aria-hidden="true">
+        <rect x="2.25" y="2.25" width="7.5" height="7.5" fill="none" stroke-width="1.5"></rect>
+        <path d="M6 0v3M6 9v3M0 6h3M9 6h3" stroke-width="1.5"></path>
+      </svg>
       <span class="nav__name">{site.shortName}</span>
     </a>
 
@@ -59,13 +62,13 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
 </header>
 
 <style>
+  /* Report masthead: solid paper on a heavy rule. */
   .nav {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in srgb, var(--paper) 88%, transparent);
-    backdrop-filter: saturate(1.4) blur(8px);
-    border-bottom: 1px solid var(--rule);
+    background: var(--paper);
+    border-bottom: var(--rule-heavy);
   }
   .nav__inner {
     display: flex;
@@ -78,23 +81,26 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
     align-items: center;
     gap: 0.55rem;
     color: var(--ink);
-    font-family: var(--font-mono);
+    font-family: var(--font-display);
     font-size: var(--fs-sm);
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-  .nav__brand:hover {
-    color: var(--forest-deep);
+    font-weight: 800;
+    font-stretch: 115%;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     text-decoration: none;
   }
-  /* A small radar-return mark: a filled square with a coherence ring. */
+  .nav__brand:hover {
+    color: var(--ink);
+  }
+  .nav__brand:hover .nav__mark {
+    stroke: var(--signal-ink);
+  }
+  /* Fiducial mark: the registration crosshair of a calibration target. */
   .nav__mark {
-    width: 0.72rem;
-    height: 0.72rem;
-    background: var(--forest);
-    box-shadow:
-      0 0 0 3px var(--forest-wash),
-      0 0 0 4px var(--rule);
+    width: 0.78rem;
+    height: 0.78rem;
+    stroke: var(--signal);
+    flex: none;
   }
   .nav__links {
     display: flex;
@@ -102,15 +108,19 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
     margin-inline-start: auto;
   }
   .nav__link {
-    color: var(--mist);
-    font-size: var(--fs-sm);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-2xs);
     font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--mist);
+    text-decoration: none;
     padding-block: 0.2rem;
     position: relative;
   }
   .nav__link:hover {
     color: var(--ink);
-    text-decoration: none;
   }
   .nav__link.is-active {
     color: var(--ink);
@@ -120,9 +130,9 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -2px;
-    height: 2px;
-    background: var(--forest);
+    bottom: -3px;
+    height: 3px;
+    background: var(--signal);
   }
   .nav__socials {
     display: flex;
@@ -137,10 +147,10 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
     place-items: center;
   }
   .nav__social:hover {
-    color: var(--forest);
+    color: var(--ink);
   }
   .nav__search[data-active] {
-    color: var(--forest);
+    color: var(--signal-ink);
   }
 
   @media (max-width: 34rem) {

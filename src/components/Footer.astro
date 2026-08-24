@@ -7,42 +7,55 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
 
 <footer class="footer" data-pagefind-ignore>
   <div class="footer__inner container">
-    <div class="footer__meta">
-      <span class="eyebrow">© {year} {site.shortName}</span>
-      <span class="footer__tag">SAR · complex-valued ML · geospatial FMs</span>
-    </div>
-    <div class="footer__links">
-      {
-        iconSocials.map((s) => (
-          <a
-            class="footer__link"
-            href={s.href}
-            target="_blank"
-            rel="me noopener"
-            aria-label={s.label}
-          >
-            <Icon name={s.key} />
-          </a>
-        ))
-      }
-      <a class="footer__link" href="/blog.xml" aria-label="RSS feed"><Icon name="rss" /></a>
+    <div class="footer__row">
+      <div class="footer__meta">
+        <span class="eyebrow">© {year} {site.shortName}</span>
+        <span class="footer__tag">SAR · complex-valued ML · geospatial FMs</span>
+      </div>
+      <div class="footer__links">
+        {
+          iconSocials.map((s) => (
+            <a
+              class="footer__link"
+              href={s.href}
+              target="_blank"
+              rel="me noopener"
+              aria-label={s.label}
+            >
+              <Icon name={s.key} />
+            </a>
+          ))
+        }
+        <a class="footer__link" href="/blog.xml" aria-label="RSS feed"><Icon name="rss" /></a>
+      </div>
     </div>
   </div>
 </footer>
 
 <style>
+  /* Document end: thick/thin closing rule on plain paper. */
   .footer {
     margin-top: var(--sp-10);
-    border-top: 1px solid var(--rule);
-    background: var(--paper-2);
+    border-top: var(--rule-heavy);
+    position: relative;
+  }
+  .footer::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 0;
+    right: 0;
+    border-top: var(--rule-thin);
   }
   .footer__inner {
+    padding-block: var(--sp-6);
+  }
+  .footer__row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: var(--sp-4);
-    padding-block: var(--sp-6);
   }
   .footer__meta {
     display: flex;
@@ -66,6 +79,16 @@ const iconSocials = socials.filter((s) => s.key !== 'email');
     place-items: center;
   }
   .footer__link:hover {
-    color: var(--forest);
+    color: var(--ink);
+  }
+  .footer__colophon {
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.03em;
+    line-height: 1.6;
+    color: var(--mist);
+    margin-top: var(--sp-5);
+    padding-top: var(--sp-4);
+    border-top: var(--rule-light);
   }
 </style>

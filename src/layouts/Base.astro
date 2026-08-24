@@ -1,8 +1,8 @@
 ---
 // Font faces (self-hosted via Fontsource), math CSS, then design system.
-import '@fontsource-variable/newsreader/index.css';
-import '@fontsource-variable/newsreader/standard-italic.css';
-import '@fontsource-variable/ibm-plex-sans/index.css';
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/stix-two-text/wght.css';
+import '@fontsource-variable/stix-two-text/wght-italic.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import 'katex/dist/katex.min.css';
@@ -47,7 +47,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="alternate" type="application/rss+xml" title="Josiah Smith — Blog" href="/blog.xml" />
-    <meta name="theme-color" content="#f2f4f0" />
+    <meta name="theme-color" content="#ffffff" />
     <slot name="head" />
   </head>
   <body>

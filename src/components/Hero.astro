@@ -1,14 +1,16 @@
 ---
-import SwathField from './SwathField.tsx';
+import { Image } from 'astro:assets';
+import scene from '@/assets/s1c-caqueta-20260819.png';
 ---
 
 <section class="hero container">
   <div class="hero__text">
-    <p class="eyebrow">Applied AI Scientist · Ph.D., Electrical Engineering</p>
+    <p class="eyebrow">Applied AI Scientist · Ph.D. · Geospatial AI</p>
     <h1 class="hero__name">Josiah&nbsp;W.<span>Smith</span></h1>
     <p class="hero__thesis">
-      I build deep learning systems that use the <em>physics of the sensor</em>: synthetic aperture
-      radar, complex-valued neural networks, and geospatial foundation models.
+      <span class="hero__abstract">Abstract—</span>I build deep learning systems that use the <em
+        >physics of the sensor</em
+      >: synthetic aperture radar, complex-valued neural networks, and geospatial foundation models.
     </p>
     <div class="hero__cta">
       <a class="btn" href="/projects">See the projects</a>
@@ -17,15 +19,51 @@ import SwathField from './SwathField.tsx';
     </div>
   </div>
 
-  <figure class="hero__swath">
-    <div class="swath__frame">
-      <SwathField client:idle />
-      <span class="swath__anno swath__anno--s1">λ 5.6&thinsp;cm · C-BAND</span>
-      <span class="swath__anno swath__anno--nisar">λ 24&thinsp;cm · L-BAND</span>
-      <span class="swath__corner">ACQ&nbsp;/&nbsp;AZ×RG</span>
+  <figure class="hero__fig">
+    <div class="fig__frame">
+      <div class="fig__strip" aria-hidden="true">
+        <span>S1C · IW · GRDH · γ⁰ VV</span>
+        <span>ASC / REL. ORBIT 47</span>
+      </div>
+      <div class="fig__canvas">
+        <Image
+          src={scene}
+          alt="Sentinel-1C radar backscatter image of the Caquetá and Huila departments of Colombia, a tilted acquisition footprint showing forested lowlands, Andean foothills, and a meandering river"
+          widths={[700, 1400]}
+          sizes="(max-width: 52rem) 92vw, 42rem"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <!-- Printed marks (ink) + reviewer's pen (signal) over the scene.
+             Image scale from the STAC bbox: 199.5 m/px, so 50 km = 251 px. -->
+        <svg class="fig__marks" viewBox="0 0 1400 1079" preserveAspectRatio="xMidYMid meet">
+          <!-- scale bar -->
+          <g class="mark-ink">
+            <path d="M 60 1006 v 16 M 60 1014 h 251 M 311 1006 v 16"></path>
+            <text x="66" y="994" class="mark-label mark-label--ink">50 km</text>
+          </g>
+          <!-- pen: loop around the meander belt -->
+          <g class="mark-pen">
+            <path
+              d="M 1150 490 C 1252 462, 1310 560, 1292 682 C 1276 793, 1212 856, 1148 824 C 1086 792, 1082 642, 1104 560 C 1118 512, 1128 496, 1164 484"
+            ></path>
+            <path d="M 1176 962 C 1214 908, 1240 850, 1250 790"></path>
+            <path d="M 1236 806 L 1250 790 L 1256 810"></path>
+            <text x="1080" y="1006" class="mark-label mark-label--pen">meander belt</text>
+          </g>
+          <!-- pen: arrow into the foothill terrain -->
+          <g class="mark-pen">
+            <path d="M 205 92 C 268 142, 330 208, 388 268"></path>
+            <path d="M 366 262 L 388 268 L 378 246"></path>
+            <text x="40" y="72" class="mark-label mark-label--pen">Andean foothills</text>
+          </g>
+        </svg>
+      </div>
     </div>
-    <figcaption class="swath__cap">
-      Fig.&nbsp;00 — synthetic L-band acquisition swath, resolving in azimuth
+    <figcaption class="fig__cap">
+      Fig.&nbsp;1 — Sentinel-1C IW GRDH, γ⁰ VV, 2026-08-19 23:20&thinsp;UTC, ascending, rel. orbit
+      47. Caquetá&thinsp;/&thinsp;Huila, Colombia (1.9°&thinsp;N, 75.9°&thinsp;W). Contains modified
+      Copernicus Sentinel data (2026), processed on Microsoft Planetary Computer.
     </figcaption>
   </figure>
 </section>
@@ -33,16 +71,17 @@ import SwathField from './SwathField.tsx';
 <style>
   .hero {
     display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
+    grid-template-columns: 0.95fr 1.05fr;
     gap: clamp(1.5rem, 0.5rem + 4vw, 4rem);
     align-items: center;
-    padding-block: clamp(2.5rem, 1.5rem + 5vw, 5.5rem);
+    padding-block: clamp(2.5rem, 1.5rem + 4vw, 5rem);
   }
   .hero__name {
     font-size: var(--fs-display);
-    font-weight: 500;
-    line-height: 0.98;
-    letter-spacing: -0.02em;
+    font-weight: 800;
+    font-stretch: 115%;
+    line-height: 0.94;
+    letter-spacing: 0.005em;
     margin-top: var(--sp-4);
     color: var(--ink);
   }
@@ -50,16 +89,20 @@ import SwathField from './SwathField.tsx';
     display: block;
   }
   .hero__thesis {
-    font-family: var(--font-serif);
     font-size: var(--fs-md);
-    line-height: 1.45;
+    line-height: 1.5;
     color: var(--ink-soft);
-    max-width: 30ch;
+    max-width: 34ch;
     margin-top: var(--sp-5);
   }
-  .hero__thesis em {
-    color: var(--forest-deep);
+  .hero__abstract {
+    font-weight: 700;
     font-style: italic;
+    color: var(--ink);
+  }
+  .hero__thesis em {
+    font-style: italic;
+    color: var(--ink);
   }
   .hero__cta {
     display: flex;
@@ -69,73 +112,78 @@ import SwathField from './SwathField.tsx';
     margin-top: var(--sp-6);
   }
 
-  /* --- swath panel (the signature) --- */
-  .hero__swath {
+  /* --- Figure 1: the real scene (the signature) --- */
+  .hero__fig {
     margin: 0;
   }
-  .swath__frame {
+  .fig__frame {
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+  }
+  .fig__strip {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    font-family: var(--font-mono);
+    font-size: var(--fs-3xs);
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    padding: 0.35rem 0.55rem;
+    border-bottom: 1px solid var(--ink);
+  }
+  .fig__canvas {
     position: relative;
-    aspect-ratio: 4 / 3;
-    border: 1px solid var(--ink);
-    background: var(--paper-2);
-    overflow: hidden;
-    box-shadow:
-      0 1px 0 var(--rule),
-      0 18px 40px -28px rgba(18, 32, 26, 0.5);
+    padding: 0.55rem;
   }
-  .swath__anno {
+  .fig__canvas :global(img) {
+    width: 100%;
+    height: auto;
+  }
+  .fig__marks {
     position: absolute;
+    inset: 0.55rem;
+    width: calc(100% - 1.1rem);
+    height: calc(100% - 1.1rem);
+    pointer-events: none;
+  }
+  .mark-ink path {
+    stroke: var(--ink);
+    stroke-width: 2.5;
+    fill: none;
+  }
+  .mark-pen path {
+    stroke: var(--signal);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+  }
+  .mark-label {
     font-family: var(--font-mono);
-    font-size: var(--fs-3xs);
+    font-size: 32px;
     letter-spacing: 0.04em;
-    color: var(--ink);
-    background: color-mix(in srgb, var(--paper) 82%, transparent);
-    padding: 0.2rem 0.45rem;
-    border-left: 3px solid;
-    backdrop-filter: blur(2px);
-    white-space: nowrap;
   }
-  .swath__anno--s1 {
-    top: 0.6rem;
-    left: 0.6rem;
-    border-color: var(--s1);
+  .mark-label--ink {
+    fill: var(--ink);
   }
-  .swath__anno--nisar {
-    bottom: 1.9rem;
-    right: 0.6rem;
-    border-color: var(--nisar);
+  .mark-label--pen {
+    fill: var(--signal-ink);
   }
-  .swath__corner {
-    position: absolute;
-    bottom: 0.6rem;
-    left: 0.6rem;
-    font-family: var(--font-mono);
-    font-size: var(--fs-3xs);
-    letter-spacing: 0.08em;
-    color: var(--ink);
-    background: color-mix(in srgb, var(--paper) 82%, transparent);
-    padding: 0.15rem 0.4rem;
-    backdrop-filter: blur(2px);
-  }
-  .swath__cap {
+  .fig__cap {
     font-family: var(--font-mono);
     font-size: var(--fs-3xs);
     letter-spacing: 0.03em;
+    line-height: 1.55;
     color: var(--mist);
     margin-top: var(--sp-3);
     padding-left: 0.1rem;
+    max-width: 46rem;
   }
 
   @media (max-width: 52rem) {
     .hero {
       grid-template-columns: 1fr;
       gap: var(--sp-6);
-    }
-    .hero__swath {
-      order: -1;
-    }
-    .swath__frame {
-      aspect-ratio: 16 / 9;
     }
   }
 </style>

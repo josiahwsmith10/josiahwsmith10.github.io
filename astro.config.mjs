@@ -52,15 +52,20 @@ export default defineConfig({
 
   vite: {
     // citation-js packages are CJS with dynamic requires; bundle them for SSR
-    // so the build-time IEEE publication rendering works.
+    // so the build-time IEEE publication rendering works. In dev they must stay
+    // external instead — Vite's dev SSR loader executes noExternal modules as
+    // ESM and dies on their CJS `exports` (ReferenceError on /cv).
     ssr: {
-      noExternal: [
-        '@citation-js/core',
-        '@citation-js/plugin-bibtex',
-        '@citation-js/plugin-csl',
-        '@citation-js/date',
-        '@citation-js/name',
-      ],
+      noExternal:
+        process.env.NODE_ENV === 'production'
+          ? [
+              '@citation-js/core',
+              '@citation-js/plugin-bibtex',
+              '@citation-js/plugin-csl',
+              '@citation-js/date',
+              '@citation-js/name',
+            ]
+          : [],
     },
   },
 });

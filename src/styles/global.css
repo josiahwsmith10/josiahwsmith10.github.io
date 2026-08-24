@@ -1,44 +1,59 @@
 /* =========================================================================
-   EO editorial — design tokens + base styles
-   Grounded in the subject: cool panchromatic paper, deep-forest accent,
-   radar data-color pair reserved for figures/data only.
+   Mission archive — design tokens + base styles
+   Reference world: the technical report. White paper, black ink, one
+   signal accent (international orange, the color of flight-test hardware
+   and calibration targets), thick/thin rule pairs, dense captioned
+   figures with real provenance.
+   Type: Archivo (report-cover grotesque, width axis) · STIX Two Text
+   (the typeface of scientific publishing) · IBM Plex Mono (instrument
+   and console data).
    ========================================================================= */
 
 :root {
   /* ---- Color ------------------------------------------------------------ */
-  --paper: #f2f4f0; /* cool panchromatic off-white */
-  --paper-2: #e8ebe4; /* panel / card fill */
-  --paper-3: #dee3d9; /* deeper fill, hover */
-  --ink: #12201a; /* deep-canopy near-black */
-  --ink-soft: #2c3a33; /* softened ink for body */
-  --mist: #63736a; /* radar mid-gray: secondary text */
-  --rule: #d2d9cf; /* hairline rules */
-  --forest: #1e5e43; /* primary accent: links, marks */
-  --forest-deep: #154331; /* accent hover / active */
-  --forest-wash: #e4ede7; /* faint accent tint */
-  /* Reserved DATA pair — figures, charts, the swath. Never in nav/chrome. */
+  --paper: #ffffff; /* report paper: true white, no cream cast */
+  --paper-2: #f4f4f4; /* panel fill, neutral gray */
+  --paper-3: #e8e8e8; /* deeper fill, hover */
+  --ink: #131313; /* text + structural rules */
+  --ink-soft: #2e2e2e; /* body text */
+  --mist: #6c6c6c; /* secondary text */
+  --rule: #d9d9d9; /* light hairline (tables, separators) */
+  --signal: #ff4f00; /* international orange: marks, annotations, active states */
+  --signal-ink: #bf3a00; /* darkened signal for text-sized uses (AA on white) */
+  --signal-wash: #ffece3; /* faint signal tint */
+  /* Reserved DATA pair — figures, charts. Never in nav/chrome. */
   --s1: #2c5fb8; /* Sentinel-1 / C-band */
   --nisar: #c7442e; /* NISAR / L-band */
+  /* Legacy accent aliases, kept while old names are swept out. */
+  --forest: var(--signal-ink);
+  --forest-deep: var(--signal-ink);
+  --forest-wash: var(--signal-wash);
 
   /* ---- Type ------------------------------------------------------------- */
-  --font-serif: 'Newsreader Variable', Newsreader, Georgia, 'Times New Roman', serif;
-  --font-sans: 'IBM Plex Sans Variable', 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Archivo Variable', Archivo, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'STIX Two Text Variable', 'STIX Two Text', 'Times New Roman', serif;
+  --font-sans: var(--font-display);
   --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --fs-3xs: 0.72rem;
   --fs-2xs: 0.78rem;
   --fs-xs: 0.86rem;
   --fs-sm: 0.95rem;
-  --fs-base: 1.1rem;
-  --fs-md: 1.24rem;
-  --fs-lg: clamp(1.35rem, 1.15rem + 0.9vw, 1.7rem);
+  --fs-base: 1.06rem;
+  --fs-md: 1.22rem;
+  --fs-lg: clamp(1.3rem, 1.12rem + 0.8vw, 1.6rem);
   --fs-xl: clamp(1.7rem, 1.3rem + 1.8vw, 2.35rem);
   --fs-2xl: clamp(2.1rem, 1.55rem + 2.7vw, 3.3rem);
-  --fs-display: clamp(2.7rem, 1.7rem + 6.4vw, 5.8rem);
+  --fs-display: clamp(2.9rem, 1.8rem + 6.8vw, 6.2rem);
 
-  --lh-tight: 1.12;
-  --lh-snug: 1.3;
-  --lh-body: 1.65;
+  --lh-tight: 1.05;
+  --lh-snug: 1.25;
+  --lh-body: 1.62;
+
+  /* ---- Rules ------------------------------------------------------------ */
+  --rule-heavy: 3px solid var(--ink);
+  --rule-thin: 1px solid var(--ink);
+  --rule-light: 1px solid var(--rule);
 
   /* ---- Space & layout --------------------------------------------------- */
   --sp-1: 0.25rem;
@@ -53,7 +68,7 @@
   --sp-10: 8rem;
 
   --page-max: 72rem;
-  --prose-max: 40rem; /* ~66–70ch measure */
+  --prose-max: 42rem; /* ~66–70ch in STIX */
   --gutter: clamp(1.25rem, 0.4rem + 3.2vw, 3rem);
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -91,7 +106,7 @@ textarea {
 body {
   background: var(--paper);
   color: var(--ink-soft);
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: var(--fs-base);
   line-height: var(--lh-body);
   font-weight: 400;
@@ -102,48 +117,56 @@ body {
   flex-direction: column;
 }
 
-/* ---- Headings ---------------------------------------------------------- */
+/* ---- Headings ----------------------------------------------------------
+   Display face for structure; page-level h1 is set in report-cover caps. */
 h1,
 h2,
 h3,
 h4 {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   color: var(--ink);
-  font-weight: 500;
   line-height: var(--lh-snug);
-  letter-spacing: -0.01em;
   text-wrap: balance;
 }
 h1 {
   font-size: var(--fs-2xl);
+  font-weight: 800;
   line-height: var(--lh-tight);
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
 }
 h2 {
   font-size: var(--fs-xl);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 h3 {
   font-size: var(--fs-lg);
+  font-weight: 650;
+  letter-spacing: -0.005em;
 }
 h4 {
   font-size: var(--fs-md);
+  font-weight: 650;
 }
 
-/* ---- Text elements ----------------------------------------------------- */
+/* ---- Text elements ------------------------------------------------------
+   Links are ink with an underline, like a printed reference; color only
+   arrives on interaction. */
 a {
-  color: var(--forest);
-  text-decoration: none;
-  text-underline-offset: 0.15em;
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.16em;
   text-decoration-thickness: 1px;
   transition: color 0.15s var(--ease);
 }
 a:hover {
-  color: var(--forest-deep);
-  text-decoration: underline;
+  color: var(--signal-ink);
 }
 
 strong,
 b {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--ink);
 }
 em,
@@ -153,28 +176,27 @@ i {
 
 hr {
   border: 0;
-  border-top: 1px solid var(--rule);
+  border-top: var(--rule-heavy);
   margin: var(--sp-7) 0;
 }
 
-/* Inline code (not Expressive Code blocks). Subdued, per old styles.css intent. */
+/* Inline code (not Expressive Code blocks). */
 :not(pre) > code {
   font-family: var(--font-mono);
-  font-size: 0.88em;
-  color: var(--forest-deep);
-  background: transparent;
-  padding: 0 0.1em;
+  font-size: 0.85em;
+  color: var(--ink);
+  background: var(--paper-2);
+  padding: 0.08em 0.3em;
   word-break: break-word;
 }
 
-/* Blockquotes → editorial pull-quotes in Newsreader italic. */
+/* Blockquotes: set like an extract in a report. */
 blockquote {
-  font-family: var(--font-serif);
   font-style: italic;
   font-size: var(--fs-md);
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--ink);
-  border-left: 2px solid var(--forest);
+  border-left: 3px solid var(--ink);
   padding-left: var(--sp-5);
   margin: var(--sp-6) 0;
 }
@@ -184,13 +206,12 @@ blockquote strong {
 
 /* ---- Focus & selection ------------------------------------------------- */
 :focus-visible {
-  outline: 2px solid var(--forest);
+  outline: 2px solid var(--signal);
   outline-offset: 3px;
-  border-radius: 1px;
 }
 ::selection {
-  background: var(--forest);
-  color: var(--paper);
+  background: var(--signal);
+  color: #fff;
 }
 
 /* ---- Reusable layout & bits ------------------------------------------- */
@@ -214,24 +235,37 @@ blockquote strong {
   color: var(--mist);
 }
 
-/* Structural hairline label row: a mono tag sitting on a rule. */
+/* Structural label row on a thick/thin double rule (report section head). */
 .rule-label {
   display: flex;
   align-items: baseline;
   gap: var(--sp-4);
   padding-bottom: var(--sp-3);
-  border-bottom: 1px solid var(--rule);
-  margin-bottom: var(--sp-5);
+  border-bottom: var(--rule-heavy);
+  position: relative;
+  margin-bottom: var(--sp-6);
+}
+.rule-label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  border-bottom: var(--rule-thin);
 }
 .rule-label .eyebrow {
   white-space: nowrap;
+  color: var(--ink);
+}
+.rule-label .eyebrow ~ .eyebrow {
+  color: var(--mist);
 }
 .rule-label::after {
   content: '';
   flex: 1;
 }
 
-/* ---- Buttons & arrow links (editorial, zero-radius) ------------------- */
+/* ---- Buttons & arrow links (square, mono, printed) --------------------- */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -240,32 +274,32 @@ blockquote strong {
   font-size: var(--fs-xs);
   font-weight: 500;
   letter-spacing: 0.02em;
+  text-transform: uppercase;
   padding: 0.62em 1.1em;
   background: var(--ink);
   color: var(--paper);
-  border: 1px solid var(--ink);
+  border: 1.5px solid var(--ink);
   border-radius: 0;
   cursor: pointer;
+  text-decoration: none;
   transition:
     background 0.15s var(--ease),
     border-color 0.15s var(--ease),
     color 0.15s var(--ease);
 }
 .btn:hover {
-  background: var(--forest-deep);
-  border-color: var(--forest-deep);
+  background: #000;
+  border-color: #000;
   color: var(--paper);
-  text-decoration: none;
 }
 .btn--ghost {
   background: transparent;
   color: var(--ink);
-  border-color: var(--rule);
+  border-color: var(--ink);
 }
 .btn--ghost:hover {
   background: var(--paper-2);
   color: var(--ink);
-  border-color: var(--mist);
 }
 .btn--sm {
   padding: 0.45em 0.85em;
@@ -277,11 +311,11 @@ blockquote strong {
   font-size: var(--fs-xs);
   font-weight: 500;
   letter-spacing: 0.02em;
-  color: var(--forest);
+  color: var(--ink);
   white-space: nowrap;
 }
 .link-arrow:hover {
-  color: var(--forest-deep);
+  color: var(--signal-ink);
 }
 
 /* ---- Prose (posts, CV, projects) -------------------------------------- */
@@ -332,7 +366,7 @@ blockquote strong {
   font-size: 1.02em;
 }
 
-/* Prose tables (GFM). */
+/* Prose tables (GFM): thick head rule, light body rules. */
 .prose table {
   width: 100%;
   border-collapse: collapse;
@@ -349,13 +383,13 @@ blockquote strong {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--mist);
-  border-bottom: 2px solid var(--ink);
+  border-bottom: var(--rule-heavy);
   padding: 0.5rem 0.9rem 0.5rem 0;
   white-space: nowrap;
 }
 .prose tbody td {
   padding: 0.5rem 0.9rem 0.5rem 0;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: var(--rule-light);
   color: var(--ink-soft);
   vertical-align: top;
 }
