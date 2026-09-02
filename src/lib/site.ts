@@ -1,11 +1,11 @@
 // Single source of truth for site-wide identity, nav, and social links.
 export const site = {
-  name: 'Josiah W. Smith',
+  name: 'Josiah Smith',
   shortName: 'Josiah Smith',
   role: 'Applied AI Scientist, Ph.D.',
-  title: 'Josiah W. Smith — Applied AI Scientist',
+  title: 'Josiah Smith — Applied AI Scientist',
   description:
-    'Research notes and projects from Josiah W. Smith, Ph.D., on deep learning for radar and satellite sensing: SAR, complex-valued neural networks, and geospatial foundation models.',
+    'Research notes and projects from Josiah Smith, Ph.D., on deep learning for radar and satellite sensing: SAR, complex-valued neural networks, and geospatial foundation models.',
   url: 'https://josiahwsmith10.github.io',
   email: 'josiahsmithphd@gmail.com',
 } as const;

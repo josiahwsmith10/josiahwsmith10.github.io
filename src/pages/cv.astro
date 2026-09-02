@@ -80,7 +80,7 @@ const education = [
   {
     degree: 'Ph.D., Electrical Engineering',
     org: 'The University of Texas at Dallas · 2022',
-    note: 'GPA 4.0/4.0. Advisor: Prof. Murat Torlak. Dissertation: <em>Novel Hybrid-Learning Algorithms for Improved Millimeter-Wave Imaging Systems</em>. Five first-author IEEE papers; one granted patent.',
+    note: 'GPA 4.0/4.0. Advisor: Prof. Murat Torlak. Dissertation: <a href="https://arxiv.org/abs/2306.15341" target="_blank" rel="noopener"><em>Novel Hybrid-Learning Algorithms for Improved Millimeter-Wave Imaging Systems</em></a>. Five first-author IEEE papers; one granted patent.',
   },
   {
     degree: 'B.S., Electrical Engineering',
@@ -113,19 +113,25 @@ const skills = [
 ];
 
 const patents = [
-  'J. W. Smith and M. Torlak, “Deep Learning-Based Multiband Signal Fusion for 3-D SAR Super-Resolution,” <strong>U.S. Patent 12,474,468 B2</strong>, granted Nov. 2025. Assignee: Board of Regents, The University of Texas System.',
-  'L. Zhu, J. W. Smith, and J. Jadidian, “Selective Sensor Activation Based on Multi-Chip FMCW Radar,” <strong>U.S. Patent Appl. 2025/0328012 A1</strong>, filed Apr. 2024 (pending). Assignee: Microsoft Technology Licensing, LLC.',
+  {
+    html: 'J. W. Smith and M. Torlak, “Deep Learning-Based Multiband Signal Fusion for 3-D SAR Super-Resolution,” <strong>U.S. Patent 12,474,468 B2</strong>, granted Nov. 2025. Assignee: Board of Regents, The University of Texas System.',
+    href: 'https://patents.google.com/patent/US12474468B2/en',
+  },
+  {
+    html: 'L. Zhu, J. W. Smith, and J. Jadidian, “Selective Sensor Activation Based on Multi-Chirp FMCW Radar,” <strong>U.S. Patent Appl. 2025/0328012 A1</strong>, filed Apr. 2024 (pending). Assignee: Microsoft Technology Licensing, LLC.',
+    href: 'https://patents.google.com/patent/US20250328012A1/en',
+  },
 ];
 ---
 
 <Base
   title="CV — Josiah Smith"
-  description="Curriculum vitae of Josiah W. Smith, Ph.D.: SAR, complex-valued deep learning, and geospatial foundation models."
+  description="Curriculum vitae of Josiah Smith, Ph.D.: SAR, complex-valued deep learning, and geospatial foundation models."
 >
   <div class="cv container" data-pagefind-body>
     <header class="cv__head">
       <p class="eyebrow">Curriculum Vitae</p>
-      <h1 class="cv__name">Josiah W. Smith</h1>
+      <h1 class="cv__name">Josiah Smith</h1>
       <p class="cv__interests">
         Synthetic aperture radar · complex-valued / phase-aware deep learning · geospatial
         foundation models · remote sensing for environmental and humanitarian use.
@@ -199,7 +205,29 @@ const patents = [
         pubs.map((g) => (
           <div class="pubs">
             <h3 class="pubs__label">{g.label}</h3>
-            <div class="pubs__body" set:html={g.html} />
+            <ol class="pubs__list">
+              {g.entries.map((e) => (
+                <li class="pub">
+                  <span class="pub__marker">{e.marker}</span>
+                  <div class="pub__body">
+                    <p class="pub__cite" set:html={e.html} />
+                    {e.links.length > 0 && (
+                      <p class="pub__links">
+                        {e.links.map((l) => (
+                          <a
+                            class="link-arrow pub__link"
+                            href={l.href}
+                            {...(l.external ? { target: '_blank', rel: 'noopener' } : {})}
+                          >
+                            {l.label} {l.external ? '↗' : '→'}
+                          </a>
+                        ))}
+                      </p>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
         ))
       }
@@ -208,7 +236,16 @@ const patents = [
     <section class="cv__section">
       <div class="rule-label"><span class="eyebrow">Patents</span></div>
       <ul class="cv__plain">
-        {patents.map((p) => <li set:html={p} />)}
+        {
+          patents.map((p) => (
+            <li>
+              <span set:html={p.html} />{' '}
+              <a class="link-arrow pub__link" href={p.href} target="_blank" rel="noopener">
+                Google Patents ↗
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </section>
 
@@ -337,23 +374,41 @@ const patents = [
     color: var(--ink);
     margin-bottom: var(--sp-3);
   }
-  .pubs__body :global(.csl-entry) {
+  .pubs__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+  .pub {
     display: flex;
     gap: 0.6rem;
-    margin-bottom: var(--sp-3);
+  }
+  .pub__marker {
+    font-family: var(--font-mono);
+    font-size: var(--fs-xs);
+    line-height: 1.7;
+    color: var(--forest);
+    white-space: nowrap;
+  }
+  .pub__cite {
     font-size: var(--fs-sm);
     line-height: 1.5;
     color: var(--ink-soft);
   }
-  .pubs__body :global(.csl-left-margin) {
-    font-family: var(--font-mono);
-    font-size: var(--fs-xs);
-    color: var(--forest);
-    white-space: nowrap;
-  }
-  .pubs__body :global(a) {
+  .pub__cite :global(a) {
     font-weight: 500;
     word-break: break-word;
+  }
+  .pub__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--sp-4);
+    margin-top: var(--sp-2);
+  }
+  .pub__link {
+    font-size: var(--fs-2xs);
   }
 
   .cv__skills {
